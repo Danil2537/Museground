@@ -49,9 +49,9 @@ app.get("/users/login", checkAuthenticated, (req, res) => {
   res.render("login.ejs");
 });
 
-app.get("/users/dashboard", checkNotAuthenticated, (req, res) => {
+app.get("/users/profile", checkNotAuthenticated, (req, res) => {
   console.log(req.isAuthenticated());
-  res.render("dashboard", { user: req.user.username });
+  res.render("profile", { user: req.user.username });
 });
 
 
@@ -131,7 +131,7 @@ app.post("/users/register", async (req, res) => {
 app.post(
   "/users/login",
   passport.authenticate("local", {
-    successRedirect: "/users/dashboard",
+    successRedirect: "/users/profile",
     failureRedirect: "/users/login",
     failureFlash: true
   })
@@ -139,7 +139,7 @@ app.post(
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/users/dashboard");
+    return res.redirect("/users/profile");
   }
   next();
 }

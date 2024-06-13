@@ -16,6 +16,7 @@ initializePassport(passport);
 // Middleware
 
 // Parses details from a form
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
@@ -39,30 +40,30 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/users/register", checkAuthenticated, (req, res) => {
+app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.get("/users/login", checkAuthenticated, (req, res) => {
+app.get("/login", checkAuthenticated, (req, res) => {
   // flash sets a messages variable. passport sets the error message
   console.log(req.session.flash.error);
   res.render("login.ejs");
 });
 
-app.get("/users/profile", checkNotAuthenticated, (req, res) => {
+app.get("/profile", checkNotAuthenticated, (req, res) => {
   console.log(req.isAuthenticated());
   res.render("profile", { user: req.user.username });
 });
 
 
-app.get('/users/logout', function(req, res, next) {
+app.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
       res.render("./index", { message: "You have logged out successfully" });
     });
   });
 
-app.post("/users/register", async (req, res) => {
+app.post("/register", async (req, res) => {
   let { username, email, password, password2 } = req.body;
 
   let errors = [];
@@ -119,7 +120,7 @@ app.post("/users/register", async (req, res) => {
               }
               console.log(results.rows);
               req.flash("success_msg", "You are now registered. Please log in");
-              res.redirect("/users/login");
+              res.redirect("/login");
             }
           );
         }
@@ -129,17 +130,17 @@ app.post("/users/register", async (req, res) => {
 });
 
 app.post(
-  "/users/login",
+  "/login",
   passport.authenticate("local", {
-    successRedirect: "/users/profile",
-    failureRedirect: "/users/login",
+    successRedirect: "/profile",
+    failureRedirect: "/login",
     failureFlash: true
   })
 );
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/users/profile");
+    return res.redirect("/profile");
   }
   next();
 }
@@ -148,7 +149,7 @@ function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/users/login");
+  res.redirect("/login");
 }
 
 app.listen(PORT, () => {

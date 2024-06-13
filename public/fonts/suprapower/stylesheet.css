@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Suprapower SE';
+    src: url('SuprapowerSE-Heavy.eot');
+    src: local('Suprapower SE Heavy'), local('SuprapowerSE-Heavy'),
+        url('SuprapowerSE-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('SuprapowerSE-Heavy.woff2') format('woff2'),
+        url('SuprapowerSE-Heavy.woff') format('woff'),
+        url('SuprapowerSE-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+

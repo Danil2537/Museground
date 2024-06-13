@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copyrighted Tracks</title>
+    <link href = "./fonts/suprapower/stylesheet.css" rel = "stylesheet" type = "text/css"/>
+    <link href = "fonts/programme/style.css" rel = "stylesheet" type = "text/css" />
+    <link href = "mainstyle.css" rel = "stylesheet" type = "text/css"/>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body style="background-color: #333333;">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark fixed-top" data-bs-theme="dark" style="z-index: 50; opacity: 0.85;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group list-group-horizontal">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="copyrights.html">Copyright Tracks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="usersamples.html">User Samples</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="packs.html">Packs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="vst.html">VST</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="presets.html">Presets</a>
+        </li>
+      </ul>
+  </div>
+</nav>
+<nav id="sidebar" class="col-md-3 col-lg-2 h-100 d-md-block sidebar" style="padding-top: 125px">
+    <div class="position-sticky">
+        <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><h4 class="font-weight-bold">New Arrivals</h4></a>
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link" href="#"> <h4 class="font-weight-bold">Collections</h4></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><h4 class="font-weight-bold">Genres</h4></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#"><h4 class="font-weight-bold">Artists</h4></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#"><h4 class="font-weight-bold">Labels</h4></a>
+                    </li>
+        </ul>
+    </div>
+</nav>
+    </header>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-xs-5 px-lg-5" data-bs-theme="dark">
+    <div class="row">
+        <h1>Sample real original music</h1>
+        <h2>Top of the Week</h2>
+        <hr>
+        <div class="col-md-10">
+            <ul>
+    <li><div class="track-big"></div></li>
+    <li><div class="track-big"></div></li>
+    <li><div class="track-big"></div></li>
+</ul>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Most Popular</h2><hr>
+        <div class="col-6">
+<ul>
+    <li><div class="track-small"></div></li>
+    <li><div class="track-small"></div></li>
+    <li><div class="track-small"></div></li>
+</ul>
+        </div>
+        <div class="col-6">
+<ul>
+    <li><div class="track-small"></div></li>
+    <li><div class="track-small"></div></li>
+    <li><div class="track-small"></div></li>
+</ul>           
+        </div>
+    </div>
+    <div class="row">
+        <h2>Themed Collections</h2><hr>
+        <div class="col-md-3">
+            <div class="card bg-dark" style="color: #c7c7c7">
+  <img src="./media/sci-fi.png" class="card-img-top" alt="image will be here">
+  <div class="card-body">
+    <h5 class="card-title">Sci-Fi Sounds</h5>
+    <p class="card-text">Some short fescription of the playlist</p>
+  </div>
+</div>
+</div>
+<div class="col-md-3">
+<div class="card bg-dark" style="color: #c7c7c7">
+  <img src="./media/spanish.png" class="card-img-top" alt="image will be here">
+  <div class="card-body">
+    <h5 class="card-title">Spanish Soul</h5>
+    <p class="card-text">Some short fescription of the playlist</p>
+  </div>
+</div>
+</div>
+<div class="col-md-3">
+<div class="card bg-dark" style="color: #c7c7c7">
+  <img src="./media/funk.png" class="card-img-top" alt="image will be here">
+  <div class="card-body">
+    <h5 class="card-title">Wild Funk</h5>
+    <p class="card-text">Some short fescription of the playlist</p>
+  </div>
+</div>
+        </div>
+        <div class="col-md-3">
+<div class="card bg-dark" style="color: #c7c7c7">
+  <img src="./media/psy.png" class="card-img-top" alt="image will be here">
+  <div class="card-body">
+    <h5 class="card-title">Psychodelic Nights</h5>
+    <p class="card-text">Some short fescription of the playlist</p>
+  </div>
+</div>
+        </div>
+    </div>
+</main>
+<script>
+  function createBigTrackCard(trackContainer, trackNumber) 
+  {
+    // Create a new div element
+    const newTrackDiv = document.createElement('div');
+    newTrackDiv.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3', 'g-4');
+
+    // HTML structure for the track card
+    newTrackDiv.innerHTML = `
+        <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
+            <div class="card-body">
+                <h5 class="card-title">Track Title ${trackNumber}</h5>
+                <p class="card-text">Artist Name</p>
+                <div id="waveform${trackNumber}" class="wave"></div>
+                <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                    <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn${trackNumber}" class="btn btn-secondary">Play</button></li>
+                    <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness${trackNumber}" value="50" /></li>
+                    <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn${trackNumber}" class="btn btn-secondary">Pitch Down</button></li>
+                    <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn${trackNumber}" class="btn btn-secondary">Pitch Up</button></li>
+                </ul>
+                <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                    <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn${trackNumber}" class="btn btn btn-secondary ">Download</button></li>
+                    <li class="list-group-item list-group-item-dark text-center"><p id="trackLength${trackNumber}">Track Length:</p></li>
+                    <li class="list-group-item list-group-item-dark text-center"><p id="trackKey${trackNumber}">Track Key: </p></li>
+                    <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM${trackNumber}">Track BPM: </p></li></ul>
+                </div>
+            </div>
+        </div>
+    `;
+
+    trackContainer.appendChild(newTrackDiv);
+}
+
+function createSmallTrackCard(trackContainer, trackNumber)
+ {
+    const OrderIndex = trackNumber+3;
+    const newTrackDiv = document.createElement('div');
+    newTrackDiv.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3', 'g-4');
+
+    newTrackDiv.innerHTML = `
+        <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
+            <div class="card-body">
+                <h5 class="card-title">Track Title ${OrderIndex}</h5>
+                <p class="card-text">Artist Name</p>
+                <div id="waveform${OrderIndex}" class="wave"></div>
+                <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px>
+                    <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn${OrderIndex}" class="btn btn-secondary">Play</button></li>
+                    <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness${OrderIndex}" value="50" /></li>
+                    <li class="list-group-item list-group-item-dark text-center"><p id="trackLength${OrderIndex}">Track Length:</p></li>
+                </ul>
+                <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                    <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn${OrderIndex}" class="btn btn btn-secondary ">Download</button></li>
+                    <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn${OrderIndex}" class="btn btn-secondary">Pitch Down</button></li>
+                    <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn${OrderIndex}" class="btn btn-secondary">Pitch Up</button></li></ul>
+                    <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                    <li class="list-group-item list-group-item-dark text-center"><p id="trackKey${OrderIndex}">Track Key: </p></li>
+                    <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM${OrderIndex}">Track BPM: </p></li></ul>
+                </div>
+            </div>
+        </div>
+    `;
+
+    trackContainer.appendChild(newTrackDiv);
+}
+
+const trackElements = document.querySelectorAll('.track-big');
+trackElements.forEach((trackElement, index) => {
+    createBigTrackCard(trackElement, index + 1);
+});
+
+const trackElementsSmall = document.querySelectorAll('.track-small');
+trackElementsSmall.forEach((trackElement, index) => {
+    createSmallTrackCard(trackElement, index + 1);
+});
+
+
+const waveformElements = document.querySelectorAll('[id^="waveform"]');
+        const numberOfWaveforms = waveformElements.length;
+        const wavesurfers = [];
+
+for (let i = 1; i <= numberOfWaveforms; i++) {
+    const wavesurfer = WaveSurfer.create({
+        container: `#waveform${i}`,
+        responsive: true,
+        height: 60,
+        dragToSeek: true,
+        waveColor: '#00F0FF',
+        progressColor: '#0070FF',
+    });
+
+    wavesurfer.load(`./tracks/track${i}.mp3`);
+
+    const playPauseBtn = document.getElementById(`playPauseBtn${i}`);
+    playPauseBtn.addEventListener('click', () => {
+        wavesurfer.playPause();
+        playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+    });
+
+    const loudnessInput = document.getElementById(`loudness${i}`);
+    loudnessInput.addEventListener('input', () => {
+        wavesurfer.setVolume(loudnessInput.value / 100);
+    });
+
+    const pitchDownBtn = document.getElementById(`pitchDownBtn${i}`);
+    pitchDownBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
+    });
+
+    const pitchUpBtn = document.getElementById(`pitchUpBtn${i}`);
+    pitchUpBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
+    });
+
+    const downloadBtn = document.getElementById(`downloadBtn${i}`);
+    downloadBtn.addEventListener('click', () => {    });
+
+
+    // Track information (replace with actual data)
+    const trackLength = document.getElementById(`trackLength${i}`);
+    trackLength.innerText = 'Length: 2:45';
+
+    const trackKey = document.getElementById(`trackKey${i}`);
+    trackKey.innerText = 'Key: C Minor';
+
+    const trackBPM = document.getElementById(`trackBPM${i}`);
+    trackBPM.innerText = 'BPM: 120';
+
+    wavesurfers.push(wavesurfer);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+*
+{
+  font-family: 'Suprapower SE', 'Programme', sans-serif;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+body
+{
+    background-color: #333333;
+}
+        h1, h2, h3, h4, h5, p 
+        {
+        margin-top: 15px;
+        margin-bottom: 20px;
+        padding-top: 25px;
+        color: #c7c7c7;
+        }
+        
+        p
+        {
+          padding: 5px 10px 5px 15px;
+        }
+        ul 
+        {
+          list-style-type: none;
+          padding-right: 5px;
+        }
+         .track {}
+         .track-big {}
+         .track-small {}
+
+        .wave {}
+
+        .sample {}
+
+        *::-webkit-scrollbar
+        {
+        display: none;
+        }
+#sidebar
+        {
+        position: fixed; 
+        top: 0; 
+        bottom: 0; 
+        left: 0;
+        width: 200px; 
+        padding-top: 20px;
+        overflow-y: auto; 
+        background-color: #363C41; 
+        border-right: 1px solid #d6d8db; 
+        z-index: 750;
+        margin-top: 50px;
+        /*padding-top: 125px;*/
+        }
+
+        #sidebar a {
+        padding: 8px 16px;
+        text-decoration: none;
+        color: #E5E5E5;
+        display: block;
+        }
+
+#sidebar a:hover 
+{
+    background-color: #00F0FF;/* old: #EBE5E5 */
+    color: #2C2C2C;
+}
+
+    main
+    {
+    position: relative;
+    display: block;
+    padding-top: 65px;
+    background-color: #333333;
+    color: #C9C9C9;
+    margin-right: 35px;
+    margin-bottom: 20px;
+    }
+
+nav.navbar {
+            opacity: 0.9;
+        }
+
+nav.navbar a {
+            color: #fff; /* White color */
+        }
+
+nav.navbar a:hover {
+            color: #00F0FF;
+        }
+
+
+    @media (max-width: 1000px) 
+    {
+        #sidebar {
+            width: 100%;
+            position: static;
+            margin-top: 50px;
+            border-right: none;
+        }
+
+        main {
+            padding-top: 20px;
+            padding-left: 0px;
+        }
+    }
+
+    .card img
+        {
+            max-height: 300px;
+        }
+
+        *::-webkit-scrollbar
+    {
+        display: none;
+    }

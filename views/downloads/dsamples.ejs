@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="/fonts/suprapower/stylesheet.css" rel="stylesheet" type="text/css"/>
+    <link href="/fonts/programme/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/mainstyle.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+</head>
+<body style="background-color: #333333;">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark fixed-top" data-bs-theme="dark" style="z-index: 50; opacity: 0.85;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group list-group-horizontal">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/copyrights">Copyright Tracks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usersamples">User Samples</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/packs">Packs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vst">VST</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/presets">Presets</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav id="sidebar" class="col-md-3 col-lg-2 h-100 d-md-block sidebar">
+          <div class="position-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item text-light">
+                <h4 class="font-weight-bold"><a class="nav-link" href="/profile">Profile</a></h4>
+              </li>
+              <li class="nav-item text-light">
+                <h4 class="font-weight-bold">Downloaded Items</h4>
+                <div class="scrollable-content">
+                  <ul class="nav flex-column">
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/samples">Tracks</a></li>
+                    <li class="nav-item text-light"><a class="nav-link active" href="/profile/items/samples">Samples</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/packs">Packs</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/presets">Presets</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/plugins">Plugins</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item text-light">
+                <h4 class="font-weight-bold">Created Items</h4>
+                <div class="scrollable-content">
+                  <ul class="nav flex-column">
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/samples-created">Samples</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/packs-created">Packs</a></li>
+                    <li class="nav-item text-light"><a class="nav-link" href="/profile/items/presets-created">Presets</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+    </header>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-xs-5 px-lg-5 content-area" data-bs-theme="dark" style="margin-top: 50px; margin-bottom: 50px;">
+    <h1 id="mydiv" data-test="<%=type%>"><%= type %></h1>
+    <% if (type === 'Samples') { %>
+        <div class="row" id="dsamples">
+            <div class="col-md-12">
+                <h1>Downloaded Samples</h1>
+                <% samples.forEach(sample=>{ %>
+                    <div class="card h-80 w-100 bg-dark sample-big">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= sample.title %></h5>
+                            <p class="card-text"><%= sample.authorname %></p>
+                            <div id="waveform<%=sample.sampleid%>" class="wave"></div>
+                            <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                                <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%=sample.sampleid%>" class="btn btn-secondary">Play</button></li>
+                                <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%=sample.sampleid%>" value="50" /></li>
+                                <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%=sample.sampleid%>" class="btn btn-secondary">Pitch Down</button></li>
+                                <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%=sample.sampleid%>" class="btn btn-secondary">Pitch Up</button></li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                                <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%=sample.sampleid%>" class="btn btn btn-secondary ">Download</button></li>
+                                <li class="list-group-item list-group-item-dark text-center"><p id="sampleLength<%=sample.sampleid%>">Length: <%=sample.length%> </p></li>
+                                <li class="list-group-item list-group-item-dark text-center"><p id="sampleKey<%=sample.sampleid%>">Key: <%=sample.key%></p></li>
+                                <li class="list-group-item list-group-item-dark text-center"><p id="sampleBPM<%=sample.sampleid%>">BPM: <%=sample.bpm%></p></li></ul>
+                                <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                                    <li class="list-group-item list-group-item-dark text-center"><p id="sampleLabel<%=sample.sampleid%>">Label: <%=sample.instrument%></p></li>
+                                    <li class="list-group-item list-group-item-dark text-center"><p id="sampleGenre<%=sample.sampleid%>">Genre: <%=sample.genre%></p></li>
+                                </ul>
+                        </div>
+                    </div>
+                        <% }); %>
+            </div>
+            <a href="/profile" class="btn btn-danger">Back to Profile</a>
+        </div>
+    <!-- <% } else { %>
+        <ul>
+            <% items.forEach(item => { %>
+                <li><%= item.title %> - <%= item.author %></li>
+            <% }); %>
+        </ul>
+    <% } %> -->
+    </main>
+        <script type="text/javascript">
+            alert(456);
+        const waveformElements = document.querySelectorAll('[id^="waveform"]');
+        const numberOfWaveforms = waveformElements.length;
+        const wavesurfers = [];
+        const sampledatajson = '<%-JSON.stringify(sampledata)%>';
+        const sampledata = JSON.parse(sampledatajson);
+
+
+        for (let i=0; i<numberOfWaveforms;i++)
+        {
+        const wavesurfer = WaveSurfer.create({
+        container: `#waveform${sampledata.sampleids[i]}`,
+        responsive: true,
+        height: 60,
+        waveColor: '#00F0FF',
+        progressColor: '#0070FF',
+    });
+
+    wavesurfer.load(sampledata.samplepaths[i]);
+
+    const playPauseBtn = document.getElementById(`playPauseBtn${sampledata.sampleids[i]}`);
+    playPauseBtn.addEventListener('click', () => {
+        wavesurfer.playPause();
+        playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+    });
+
+    const loudnessInput = document.getElementById(`loudness${sampledata.sampleids[i]}`);
+    loudnessInput.addEventListener('input', () => {
+        wavesurfer.setVolume(loudnessInput.value / 100);
+    });
+
+    const pitchDownBtn = document.getElementById(`pitchDownBtn${sampledata.sampleids[i]}`);
+    pitchDownBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
+    });
+
+    const pitchUpBtn = document.getElementById(`pitchUpBtn${sampledata.sampleids[i]}`);
+    pitchUpBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
+    });
+
+    const downloadBtn = document.getElementById(`downloadBtn${sampledata.sampleids[i]}`);
+    downloadBtn.addEventListener('click', () => {    });
+
+    wavesurfers.push(wavesurfer);
+    }
+        </script>
+</body>
+</html>
+

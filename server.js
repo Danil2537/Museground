@@ -113,7 +113,14 @@ app.get('/profile/items/tracks', async (req, res) => {
 app.get('/profile/items/samples', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      res.render("downloads/dsamples", { samples: items.samples, type: 'Samples' });
+      var samplepaths = [];
+      var sampleids = [];
+      items.samples.forEach(sample=>{
+        sampleids.push(sample.sampleid);
+        samplepaths.push(sample.samplepath);
+      })
+      const sampledata = {samplepaths, sampleids};
+      res.render("downloads/dsamples", { samples: items.samples, type: 'Samples', sampledata: sampledata });
   } catch (err) {
       res.status(500).send('Error retrieving samples');
   }

@@ -6,6 +6,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 require("dotenv").config();
 const app = express();
+const { getUserItems } = require('./getuseritems');
 
 const PORT = process.env.PORT || 80;
 
@@ -19,6 +20,7 @@ initializePassport(passport);
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
+app.use(express.json());
 
 app.use(
   session({
@@ -41,19 +43,102 @@ app.get("/", (req, res) => {
 });
 
 app.get("/register", checkAuthenticated, (req, res) => {
-  res.render("register.ejs");
+  res.render("register");
+});
+
+app.get("/testwave", (req,res)=>{
+  res.render("testwave");
 });
 
 app.get("/login", checkAuthenticated, (req, res) => {
   // flash sets a messages variable. passport sets the error message
-  console.log(req.session.flash.error);
-  res.render("login.ejs");
+  // console.log(req.session.flash.error);
+  // res.render("login.ejs");
+  if (req.user) {
+    res.redirect("/profile", req.user);
+} else {
+    res.render("login");
+}
 });
 
-app.get("/profile", checkNotAuthenticated, (req, res) => {
+app.get("/profile", checkNotAuthenticated, async (req, res) => {
   console.log(req.isAuthenticated());
-  res.render("profile", { user: req.user.username });
+  req.user.lastvisit = new Date();
+  pool.query(
+    `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
+    (err, results) => {
+      if (err) {
+        throw err;
+      }
+      else
+      {
+        console.log(req.user, results.rows)
+      }
+    }
+  );
+  var trackpaths = [];
+  var trackids = [];
+  const items = await getUserItems(req.user.userid);
+  items.tracks.forEach(track=>{
+    trackids.push(track.trackid);
+    trackpaths.push(track.trackpath);
+  })
+  const trackdata = {trackpaths, trackids};
+  console.log(items);
+  console.log(trackids);
+  console.log(trackpaths);
+  res.render("profile", { user: req.user, items: items, trackdata: trackdata });
 });
+
+
+app.get('/profile/items/tracks', async (req, res) => {
+  try {
+      const items = await getUserItems(req.user.userid);
+
+      res.render('items', { items: items.tracks, type: 'Tracks' });
+      
+  } catch (err) {
+      res.status(500).send('Error retrieving tracks');
+  }
+});
+
+app.get('/profile/items/samples', async (req, res) => {
+  try {
+      const items = await getUserItems(req.user.userid);
+      res.render('items', { items: items.samples, type: 'Samples' });
+  } catch (err) {
+      res.status(500).send('Error retrieving samples');
+  }
+});
+
+app.get('/profile/items/packs', async (req, res) => {
+  try {
+      const items = await getUserItems(req.user.userid);
+      res.render('items', { items: items.packs, type: 'Packs' });
+  } catch (err) {
+      res.status(500).send('Error retrieving packs');
+  }
+});
+
+app.get('/profile/items/presets', async (req, res) => {
+  try {
+      const items = await getUserItems(req.user.userid);
+      res.render('items', { items: items.presets, type: 'Presets' });
+  } catch (err) {
+      res.status(500).send('Error retrieving presets');
+  }
+});
+
+app.get('/profile/items/plugins', async (req, res) => {
+  try {
+      const items = await getUserItems(req.user.userid);
+      res.render('items', { items: items.plugins, type: 'Plugins' });
+  } catch (err) {
+      res.status(500).send('Error retrieving plugins');
+  }
+});
+
+
 
 
 app.get('/logout', function(req, res, next) {

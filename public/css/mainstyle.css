@@ -37,34 +37,46 @@ body
         {
         display: none;
         }
-#sidebar
-        {
-        position: fixed; 
-        top: 0; 
-        bottom: 0; 
-        left: 0;
-        width: 200px; 
-        padding-top: 20px;
-        overflow-y: auto; 
-        background-color: #363C41; 
-        border-right: 1px solid #d6d8db; 
-        z-index: 750;
-        margin-top: 50px;
-        /*padding-top: 125px;*/
+        #sidebar {
+            position: fixed; 
+            top: 0; 
+            bottom: 0; 
+            left: 0;
+            width: 200px; 
+            padding-top: 10px;
+            overflow-y: auto; 
+            background-color: #363C41; 
+            border-right: 1px solid #d6d8db; 
+            z-index: 750;
+            margin-top: 50px;
         }
-
+        
         #sidebar a {
-        padding: 8px 16px;
-        text-decoration: none;
-        color: #E5E5E5;
-        display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #E5E5E5;
+            display: block;
+        }
+        
+        #sidebar a:hover {
+            background-color: #00F0FF; /* old: #EBE5E5 */
+            color: #2C2C2C;
         }
 
-#sidebar a:hover 
+#sidebar .active
 {
-    background-color: #00F0FF;/* old: #EBE5E5 */
-    color: #2C2C2C;
+    color: #00F0FF;
 }
+        
+        #sidebar h4 {
+            font-size: 1.2em;
+            padding: 25px 15px 0px 10px;
+        }
+        
+        .scrollable-content {
+            overflow-y: auto;
+            max-height: calc(100vh - 50px); /* Adjust the 50px according to your needs */
+        }
 
     main
     {

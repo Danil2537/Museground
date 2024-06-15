@@ -93,10 +93,18 @@ app.get("/profile", checkNotAuthenticated, async (req, res) => {
 
 app.get('/profile/items/tracks', async (req, res) => {
   try {
+      var trackpaths = [];
+      var trackids = [];
       const items = await getUserItems(req.user.userid);
-
-      res.render('items', { items: items.tracks, type: 'Tracks' });
-      
+      items.tracks.forEach(track=>{
+        trackids.push(track.trackid);
+        trackpaths.push(track.trackpath);
+      })
+      const trackdata = {trackpaths, trackids};
+      console.log(items);
+      console.log(trackids);
+      console.log(trackpaths);
+      res.render("downloads/dtracks", { user: req.user, tracks: items.tracks, trackdata: trackdata, type: 'Tracks'});      
   } catch (err) {
       res.status(500).send('Error retrieving tracks');
   }
@@ -105,7 +113,7 @@ app.get('/profile/items/tracks', async (req, res) => {
 app.get('/profile/items/samples', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      res.render('items', { items: items.samples, type: 'Samples' });
+      res.render("downloads/dsamples", { samples: items.samples, type: 'Samples' });
   } catch (err) {
       res.status(500).send('Error retrieving samples');
   }
@@ -114,7 +122,7 @@ app.get('/profile/items/samples', async (req, res) => {
 app.get('/profile/items/packs', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      res.render('items', { items: items.packs, type: 'Packs' });
+      res.render('downloads/dpacks', { packs: items.packs, type: 'Packs' });
   } catch (err) {
       res.status(500).send('Error retrieving packs');
   }
@@ -123,7 +131,7 @@ app.get('/profile/items/packs', async (req, res) => {
 app.get('/profile/items/presets', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      res.render('items', { items: items.presets, type: 'Presets' });
+      res.render('downloads/dpresets', { presets: items.presets, type: 'Presets' });
   } catch (err) {
       res.status(500).send('Error retrieving presets');
   }
@@ -132,7 +140,7 @@ app.get('/profile/items/presets', async (req, res) => {
 app.get('/profile/items/plugins', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      res.render('items', { items: items.plugins, type: 'Plugins' });
+      res.render('downloads/dplugins', { plugins: items.plugins, type: 'Plugins' });
   } catch (err) {
       res.status(500).send('Error retrieving plugins');
   }

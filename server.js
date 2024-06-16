@@ -62,7 +62,7 @@ app.get("/login", checkAuthenticated, (req, res) => {
 });
 
 app.get("/profile", checkNotAuthenticated, async (req, res) => {
-  console.log(req.isAuthenticated());
+  //console.log(req.isAuthenticated());
   req.user.lastvisit = new Date();
   pool.query(
     `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
@@ -72,7 +72,7 @@ app.get("/profile", checkNotAuthenticated, async (req, res) => {
       }
       else
       {
-        console.log(req.user, results.rows)
+        //console.log(req.user, results.rows)
       }
     }
   );
@@ -84,9 +84,10 @@ app.get("/profile", checkNotAuthenticated, async (req, res) => {
     trackpaths.push(track.trackpath);
   })
   const trackdata = {trackpaths, trackids};
-  console.log(items);
-  console.log(trackids);
-  console.log(trackpaths);
+  //console.log(items);
+  //console.log(trackids);
+  //console.log(trackpaths);
+  items.packs.forEach(pack=>{pack.samples.forEach(sample=>{console.log(sample);})});
   res.render("profile", { user: req.user, items: items, trackdata: trackdata });
 });
 
@@ -115,12 +116,19 @@ app.get('/profile/items/samples', async (req, res) => {
       const items = await getUserItems(req.user.userid);
       var samplepaths = [];
       var sampleids = [];
+      var oddsamples = [];
+      var evensamples = [];
+      for (let i =0;i<items.samples.length;++i)
+      {
+        if(i%2==0){evensamples.push(items.samples[i]);}
+        else if(i%2!=0){oddsamples.push(items.samples[i]);}
+      }
       items.samples.forEach(sample=>{
         sampleids.push(sample.sampleid);
         samplepaths.push(sample.samplepath);
       })
       const sampledata = {samplepaths, sampleids};
-      res.render("downloads/dsamples", { samples: items.samples, type: 'Samples', sampledata: sampledata });
+      res.render("downloads/dsamples", { oddsamples: oddsamples, evensamples: evensamples,  type: 'Samples', sampledata: sampledata });
   } catch (err) {
       res.status(500).send('Error retrieving samples');
   }
@@ -128,8 +136,17 @@ app.get('/profile/items/samples', async (req, res) => {
 
 app.get('/profile/items/packs', async (req, res) => {
   try {
+      var samplepaths = [];
+      var sampleids = [];
       const items = await getUserItems(req.user.userid);
-      res.render('downloads/dpacks', { packs: items.packs, type: 'Packs' });
+      items.packs.forEach(pack=>{pack.samples.forEach(sample=>{
+        sampleids.push(sample.sampleid);
+        samplepaths.push(sample.samplepath);
+        });
+      });
+      const sampledata = {samplepaths, sampleids};
+      console.log(sampledata);
+      res.render('downloads/dpacks', { packs: items.packs, type: 'Packs', sampledata: sampledata });
   } catch (err) {
       res.status(500).send('Error retrieving packs');
   }
@@ -191,7 +208,7 @@ app.post("/register", async (req, res) => {
     res.render("register", { errors, username, email, password, password2 });
   } else {
     hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
+    //console.log(hashedPassword);
     // Validation passed
     pool.query(
       `SELECT * FROM museground.user
@@ -201,7 +218,7 @@ app.post("/register", async (req, res) => {
         if (err) {
           console.log(err);
         }
-        console.log(results.rows);
+        //console.log(results.rows);
 
         if (results.rows.length > 0) {
           return res.render("register", {

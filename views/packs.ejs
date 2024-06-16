@@ -250,7 +250,6 @@ h1, h2, h3, h4, h5, p
                 <li class="list-group-item sound"></li>
                 <li class="list-group-item sound"></li>
                 <li class="list-group-item sound"></li>
-                        <!-- Add more sounds as needed -->
                     </ul>
                 </div>
             </div>
@@ -275,7 +274,6 @@ function createTrackCard(trackContainer, trackNumber) {
     trackContainer.appendChild(newTrackDiv);
 }
 
-// Find all elements with the class 'track' and apply the function
 const trackElements = document.querySelectorAll('.sound');
 trackElements.forEach((trackElement, index) => {
     createTrackCard(trackElement, index + 1);

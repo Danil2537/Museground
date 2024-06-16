@@ -1,6 +1,5 @@
 const { pool } = require("./dbConfig");
 
-
 function formatDate(date) {
     if (!date) return null;
     const year = date.getFullYear();
@@ -30,7 +29,29 @@ async function getSample(sampleid) {
 }
 
 async function getPack(packid) {
-    return queryDatabase(`SELECT * FROM museground.pack WHERE packid = $1`, [packid]);
+    try {
+        // Fetch pack details
+        const packQuery = `SELECT * FROM museground.pack WHERE packid = $1`;
+        const packResult = await pool.query(packQuery, [packid]);
+        const pack = packResult.rows[0];
+
+        if (!pack) {
+            throw new Error(`Pack with id ${packid} not found`);
+        }
+
+        // Fetch samples belonging to this pack
+        const samplesQuery = `SELECT * FROM museground.sample WHERE belongto = $1`;
+        const samplesResult = await pool.query(samplesQuery, [packid]);
+        const samples = samplesResult.rows;
+
+        // Combine pack details with samples
+        pack.samples = samples;
+        //console.log(pack.samples);
+        return pack;
+    } catch (err) {
+        console.error('Error fetching pack:', err);
+        throw err;
+    }
 }
 
 async function getPreset(presetid) {
@@ -86,7 +107,6 @@ async function getUserItems(userId) {
             track.dateadded = formatDate(new Date(track.dateadded));
             track.datecreated = formatDate(new Date(track.datecreated));
         });
-
 
         return { tracks, samples, packs, presets, plugins };
     } catch (err) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Tracks</title>
     <link href="/fonts/suprapower/stylesheet.css" rel="stylesheet" type="text/css"/>
     <link href="/fonts/programme/style.css" rel="stylesheet" type="text/css"/>
     <link href="/css/mainstyle.css" rel="stylesheet" type="text/css"/>
@@ -114,13 +114,12 @@
     <a href="/profile" class="btn btn-danger">Back to Profile</a>
 </main>
         <script type="text/javascript">
-            alert(456);
         const waveformElements = document.querySelectorAll('[id^="waveform"]');
         const numberOfWaveforms = waveformElements.length;
         const wavesurfers = [];
         const trackdatajson = '<%-JSON.stringify(trackdata)%>';
         const trackdata = JSON.parse(trackdatajson);
-
+        
 
         for (let i=0; i<numberOfWaveforms;i++)
         {

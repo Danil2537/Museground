@@ -155,6 +155,7 @@ app.get('/profile/items/packs', async (req, res) => {
 app.get('/profile/items/presets', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
+      
       res.render('downloads/dpresets', { presets: items.presets, type: 'Presets' });
   } catch (err) {
       res.status(500).send('Error retrieving presets');

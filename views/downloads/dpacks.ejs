@@ -47,9 +47,9 @@
             <h4 class="font-weight-bold">Downloaded Items</h4>
             <div class="scrollable-content">
               <ul class="nav flex-column">
-                <li class="nav-item text-light"><a class="nav-link active" href="/profile/items/tracks">Tracks</a></li>
+                <li class="nav-item text-light"><a class="nav-link" href="/profile/items/tracks">Tracks</a></li>
                 <li class="nav-item text-light"><a class="nav-link" href="/profile/items/samples">Samples</a></li>
-                <li class="nav-item text-light"><a class="nav-link" href="/profile/items/packs">Packs</a></li>
+                <li class="nav-item text-light"><a class="nav-link active" href="/profile/items/packs">Packs</a></li>
                 <li class="nav-item text-light"><a class="nav-link" href="/profile/items/presets">Presets</a></li>
                 <li class="nav-item text-light"><a class="nav-link" href="/profile/items/plugins">Plugins</a></li>
               </ul>
@@ -69,8 +69,8 @@
       </div>
     </nav>
 </header>
-
     <main class="col-md-9 ms-sm-auto col-lg-10 px-xs-5 px-lg-5 content-area" data-bs-theme="dark" style="margin-top: 50px; margin-bottom: 50px;">
+        <h1 id="mydiv" data-test="<%=type%>">Downloaded <%= type %></h1>
         <% for (let i = 0; i < packs.length; i++) { %>
             <% if (i % 3 === 0) { %>
                 <div class="row">
@@ -118,14 +118,7 @@
         waveColor: '#00F0FF',
         progressColor: '#0070FF',
     });
-
     wavesurfer.load(sampledata.samplepaths[i]);
-
-    // const playPauseBtn = document.getElementById(`playPauseBtn${sampledata.sampleids[i]}`);
-    // playPauseBtn.addEventListener('click', () => {
-    //     wavesurfer.playPause();
-    //     playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
-    // });
     wavesurfers.push(wavesurfer);
     }
 

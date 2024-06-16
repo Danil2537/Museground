@@ -73,66 +73,54 @@
     <% if (type === 'Samples') { %>
         <div class="row" id="dsamples">
             <h1 id="mydiv" data-test="<%=type%>">Downloaded <%= type %></h1>
-            <div class="col-md-6">
-                <ul>
-                    <% evensamples.forEach(sample => { %>
-                    <li>
-                        <div class="sample">
-                            <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
-                                <div class="card-body">
-                                    <h5 class="card-title"><%=sample.title%></h5>
-                                    <p class="card-text"><%=sample.authorname%></p>
-                                    <div id="waveform<%=sample.sampleid%>" class="wave"></div>
-                                    <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%=sample.sampleid%>" class="btn btn-secondary">Play</button></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%=sample.sampleid%>" value="50" /></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%=sample.sampleid%>" class="btn btn-secondary">Pitch Down</button></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%=sample.sampleid%>" class="btn btn-secondary">Pitch Up</button></li>
-                                    </ul>
-                                    <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%=sample.sampleid%>" class="btn btn-secondary">Download</button></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%=sample.sampleid%>">Length: <%=sample.length%></p></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%=sample.sampleid%>">Key: <%=sample.key%></p></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%=sample.sampleid%>">BPM: <%=sample.bpm%></p></li>
-                                    </ul>
-                                </div>
+        <div class="row">
+            <% samples.forEach((sample, index) => { %>
+                <% if (index % 2 === 0 && index !== 0) { %>
+                    </div>
+                    <div class="row">
+                <% } %>
+                <div class="col-md-6">
+                    <div class="sample">
+                        <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= sample.title %></h5>
+                                <p class="card-text"><%= sample.authorname %></p>
+                                <div id="waveform<%= sample.sampleid %>" class="wave"></div>
+                                <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <button id="playPauseBtn<%= sample.sampleid %>" class="btn btn-secondary">Play</button>
+                                    </li>
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <input type="range" id="loudness<%= sample.sampleid %>" value="50" />
+                                    </li>
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <button id="pitchDownBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Down</button>
+                                    </li>
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <button id="pitchUpBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Up</button>
+                                    </li>
+                                </ul>
+                                <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary">Download</button>
+                                    </li>
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <p id="trackLength<%= sample.sampleid %>">Length: <%= sample.length %></p>
+                                    </li>
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <p id="trackKey<%= sample.sampleid %>">Key: <%= sample.key %></p>
+                                    </li>
+                                    <li class="list-group-item list-group-item-dark text-center">
+                                        <p id="trackBPM<%= sample.sampleid %>">BPM: <%= sample.bpm %></p>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </li>
-                    <% }); %>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <ul>
-                    <% oddsamples.forEach(sample => { %>
-                    <li>
-                        <div class="sample">
-                            <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
-                                <div class="card-body">
-                                    <h5 class="card-title"><%=sample.title%></h5>
-                                    <p class="card-text"><%=sample.authorname%></p>
-                                    <div id="waveform<%=sample.sampleid%>" class="wave"></div>
-                                    <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%=sample.sampleid%>" class="btn btn-secondary">Play</button></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%=sample.sampleid%>" value="50" /></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%=sample.sampleid%>" class="btn btn-secondary">Pitch Down</button></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%=sample.sampleid%>" class="btn btn-secondary">Pitch Up</button></li>
-                                    </ul>
-                                    <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                                        <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%=sample.sampleid%>" class="btn btn-secondary">Download</button></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%=sample.sampleid%>">Length: <%=sample.length%></p></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%=sample.sampleid%>">Key: <%=sample.key%></p></li>
-                                        <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%=sample.sampleid%>">BPM: <%=sample.bpm%></p></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <% }); %>
-                </ul>
-            </div>
+                    </div>
+                </div>
+            <% }); %>
         </div>
-        <% } %>
+        <%}%>
         <a href="/profile" class="btn btn-danger">Back to Profile</a>
         </div>
 

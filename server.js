@@ -87,7 +87,7 @@ app.get("/profile", checkNotAuthenticated, async (req, res) => {
   //console.log(items);
   //console.log(trackids);
   //console.log(trackpaths);
-  items.packs.forEach(pack=>{pack.samples.forEach(sample=>{console.log(sample);})});
+  //items.packs.forEach(pack=>{pack.samples.forEach(sample=>{console.log(sample);})});
   res.render("profile", { user: req.user, items: items, trackdata: trackdata });
 });
 
@@ -102,9 +102,9 @@ app.get('/profile/items/tracks', async (req, res) => {
         trackpaths.push(track.trackpath);
       })
       const trackdata = {trackpaths, trackids};
-      console.log(items);
-      console.log(trackids);
-      console.log(trackpaths);
+      //console.log(items);
+      //console.log(trackids);
+      //console.log(trackpaths);
       res.render("downloads/dtracks", { user: req.user, tracks: items.tracks, trackdata: trackdata, type: 'Tracks'});      
   } catch (err) {
       res.status(500).send('Error retrieving tracks');
@@ -116,19 +116,12 @@ app.get('/profile/items/samples', async (req, res) => {
       const items = await getUserItems(req.user.userid);
       var samplepaths = [];
       var sampleids = [];
-      var oddsamples = [];
-      var evensamples = [];
-      for (let i =0;i<items.samples.length;++i)
-      {
-        if(i%2==0){evensamples.push(items.samples[i]);}
-        else if(i%2!=0){oddsamples.push(items.samples[i]);}
-      }
       items.samples.forEach(sample=>{
         sampleids.push(sample.sampleid);
         samplepaths.push(sample.samplepath);
       })
       const sampledata = {samplepaths, sampleids};
-      res.render("downloads/dsamples", { oddsamples: oddsamples, evensamples: evensamples,  type: 'Samples', sampledata: sampledata });
+      res.render("downloads/dsamples", { samples: items.samples, type: 'Samples', sampledata: sampledata });
   } catch (err) {
       res.status(500).send('Error retrieving samples');
   }
@@ -145,7 +138,7 @@ app.get('/profile/items/packs', async (req, res) => {
         });
       });
       const sampledata = {samplepaths, sampleids};
-      console.log(sampledata);
+      //console.log(sampledata);
       res.render('downloads/dpacks', { packs: items.packs, type: 'Packs', sampledata: sampledata });
   } catch (err) {
       res.status(500).send('Error retrieving packs');
@@ -155,7 +148,7 @@ app.get('/profile/items/packs', async (req, res) => {
 app.get('/profile/items/presets', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      
+
       res.render('downloads/dpresets', { presets: items.presets, type: 'Presets' });
   } catch (err) {
       res.status(500).send('Error retrieving presets');
@@ -171,7 +164,78 @@ app.get('/profile/items/plugins', async (req, res) => {
   }
 });
 
+app.get('/profile/items/samples-created', async(req,res)=>{
+  try
+  {
+    var samples = [];
+    pool.query(
+      `SELECT * FROM museground.sample WHERE author = $1`, [req.user.userid], (err, results) =>
+        {
+          if(err) {throw err;}
+          else 
+          {
+            samples = results.rows;
+            var samplepaths = [];
+            var sampleids = [];
+            samples.forEach(sample=>{
+              sampleids.push(sample.sampleid);
+              samplepaths.push(sample.samplepath);
+            })
+            const sampledata = {samplepaths, sampleids};
+            res.render("creations/csamples", {samples: samples, type: "Samples", sampledata: sampledata});
+          }
+        }
+    )
+  }
+  catch(err)
+  {
+    res.status(500).send('Error retrieving created samples');
+  }
+})
 
+app.get('/profile/items/packs-created', async (req, res) => {
+  try {
+    const packResults = await pool.query('SELECT * FROM museground.pack WHERE author = $1', [req.user.userid]);
+    const packs = packResults.rows;
+
+    for (const pack of packs) {
+      const sampleResults = await pool.query('SELECT * FROM museground.sample WHERE belongto = $1', [pack.packid]);
+      pack.samples = sampleResults.rows;
+    }
+
+    const samplepaths = packs.flatMap(pack => pack.samples.map(sample => sample.samplepath));
+    const sampleids = packs.flatMap(pack => pack.samples.map(sample => sample.sampleid));
+
+    const sampledata = { samplepaths, sampleids };
+    res.render('creations/cpacks', { packs: packs, type: 'Packs', sampledata: sampledata });
+  } catch (err) {
+    console.error('Error retrieving created packs or their samples:', err);
+    res.status(500).send('Error retrieving created packs or their samples');
+  }
+});
+
+
+app.get('/profile/items/presets-created', async(req,res)=>{
+  try
+  {
+    var presets = [];
+    pool.query(
+      `SELECT * FROM museground.preset WHERE author = $1`, [req.user.userid], (err, results) =>
+        {
+          if(err) {throw err;}
+          else 
+          {
+            presets = results.rows;
+            res.render("creations/cpresets", {presets: presets, type: "Presets"});
+          }
+        }
+    )
+  }
+  catch(err)
+  {
+    res.status(500).send('Error retrieving created presets');
+  }
+})
 
 
 app.get('/logout', function(req, res, next) {
@@ -186,12 +250,12 @@ app.post("/register", async (req, res) => {
 
   let errors = [];
 
-  console.log({
-    username,
-    email,
-    password,
-    password2
-  });
+  // console.log({
+  //   username,
+  //   email,
+  //   password,
+  //   password2
+  // });
 
   if (!username || !email || !password || !password2) {
     errors.push({ message: "Please enter all fields" });
@@ -236,7 +300,7 @@ app.post("/register", async (req, res) => {
               if (err) {
                 throw err;
               }
-              console.log(results.rows);
+              //console.log(results.rows);
               req.flash("success_msg", "You are now registered. Please log in");
               res.redirect("/login");
             }

@@ -52,7 +52,7 @@ app.get("/testwave", (req,res)=>{
 
 app.get("/login", checkAuthenticated, (req, res) => {
   // flash sets a messages variable. passport sets the error message
-  // console.log(req.session.flash.error);
+  //console.log(req.session.flash.error);
   // res.render("login.ejs");
   if (req.user) {
     res.redirect("/profile", req.user);
@@ -60,36 +60,6 @@ app.get("/login", checkAuthenticated, (req, res) => {
     res.render("login");
 }
 });
-
-// app.get("/profile", checkNotAuthenticated, async (req, res) => {
-//   //console.log(req.isAuthenticated());
-//   req.user.lastvisit = new Date();
-//   pool.query(
-//     `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
-//     (err, results) => {
-//       if (err) {
-//         throw err;
-//       }
-//       else
-//       {
-//         //console.log(req.user, results.rows)
-//       }
-//     }
-//   );
-//   var trackpaths = [];
-//   var trackids = [];
-//   const items = await getUserItems(req.user.userid);
-//   items.tracks.forEach(track=>{
-//     trackids.push(track.trackid);
-//     trackpaths.push(track.trackpath);
-//   })
-//   const trackdata = {trackpaths, trackids};
-//   //console.log(items);
-//   //console.log(trackids);
-//   //console.log(trackpaths);
-//   //items.packs.forEach(pack=>{pack.samples.forEach(sample=>{console.log(sample);})});
-//   res.render("profile", { user: req.user, items: items, trackdata: trackdata });
-// });
 
 app.get('/profile', async (req, res) => {
   req.user.lastvisit = new Date();
@@ -116,10 +86,6 @@ app.get('/profile/items/tracks', async (req, res) => {
         trackpaths.push(track.trackpath);
       })
       const trackdata = {trackpaths, trackids};
-      //console.log(items);
-      //console.log(trackids);
-      //console.log(trackpaths);
-      //res.render("downloads/dtracks", { user: req.user, tracks: items.tracks, trackdata: trackdata, type: 'Tracks'}); 
       res.render("profile", { user: req.user, tracks: items.tracks, trackdata: trackdata, action: 'Downloaded', type: 'Tracks'});     
   } catch (err) {
       res.status(500).send('Error retrieving tracks');
@@ -230,7 +196,6 @@ app.get('/profile/items/packs-created', async (req, res) => {
   }
 });
 
-
 app.get('/profile/items/presets-created', async(req,res)=>{
   try
   {
@@ -253,11 +218,65 @@ app.get('/profile/items/presets-created', async(req,res)=>{
   }
 })
 
+app.get('/tracks', async(req,res)=>{
+  var tracks = [];
+  var trackids = [];
+  var trackpaths = [];
+  pool.query(
+    `SELECT * FROM museground.track ORDER BY trackid ASC`, [], (err, results) =>
+    {
+      if(err) {throw err;}
+      else
+      {
+        tracks = results.rows;
+        tracks.forEach(track=>{
+          trackids.push(track.trackid);
+          trackpaths.push(track.trackpath);
+        });
+        const trackdata = {trackids, trackpaths};
+        console.log(tracks, trackdata);
+          res.render('tracks', { type: 'Random', tracks: tracks, trackdata: trackdata});
+      }
+    }
+  )
+});
+
+app.get('/tracks/new', async(req,res)=>{
+  res.render('tracks');
+});
+
+app.get('/tracks/genres', async(req,res)=>{
+  res.render('tracks');
+});
+
+app.get('/tracks/authors', async(req,res)=>{
+  res.render('tracks');
+});
+
+app.get('/tracks/labels', async(req,res)=>{
+  res.render('tracks');
+});
+
+app.get('/samples', async(req,res)=>{
+  res.render('samples');
+});
+
+app.get('/packs', async(req,res)=>{
+  res.render('packs');
+});
+
+app.get('/presets', async(req,res)=>{
+  res.render('presets');
+});
+
+app.get('/plugins', async(req,res)=>{
+  res.render('plugins');
+});
 
 app.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
-      res.render("./index", { message: "You have logged out successfully" });
+      res.render("login", { message: "You have logged out successfully" });
     });
   });
 

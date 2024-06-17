@@ -25,13 +25,13 @@ body
           list-style-type: none;
           padding-right: 5px;
         }
-         .track {}
+         /* .track {}
          .track-big {}
          .track-small {}
 
         .wave {}
 
-        .sample {}
+        .sample {} */
 
         *::-webkit-scrollbar
         {
@@ -67,6 +67,12 @@ body
 {
     color: #00F0FF;
 }
+
+nav.navbar a.active {
+  font-style: italic;
+  /* background-color: #00F0FF; */
+  color: #00F0FF !important;
+}
         
         #sidebar h4 {
             font-size: 1.2em;
@@ -97,10 +103,10 @@ nav.navbar a {
             color: #fff; /* White color */
         }
 
+
 nav.navbar a:hover {
             color: #00F0FF;
         }
-
 
     @media (max-width: 1000px) 
     {

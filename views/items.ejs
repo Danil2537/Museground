@@ -1,0 +1,537 @@
+<h2>Your <%= action %> <%= type %></h2>
+<% if (type === 'Profile') { %>
+            <div class="card mt-4 bg-dark text-light">
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control-plaintext" id="username" value="<%= user.username %>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control-plaintext" id="email" value="<%= user.email %>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastvisit" class="form-label">Last Visit</label>
+                            <input type="text" class="form-control-plaintext" id="lastvisit" value="<%= user.lastvisit %>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateregistered" class="form-label">Date Registered</label>
+                            <input type="text" class="form-control-plaintext" id="dateregistered" value="<%= user.dateregistered %>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="maxtracks" class="form-label">Max Tracks</label>
+                            <input type="text" class="form-control-plaintext" id="maxtracks" value="<%= user.maxtracks %>" readonly>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}%>
+<% if (type === 'Tracks') { %>
+    <div class="row" id="dtracks">
+        <div class="col-md-12">
+            <% tracks.forEach(track => { %>
+                <div class="card h-80 w-100 bg-dark track-big">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= track.title %></h5>
+                        <p class="card-text"><%= track.author %></p>
+                        <div id="waveform<%= track.trackid %>" class="wave"></div>
+                        <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                            <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%= track.trackid %>" class="btn btn-secondary">Play</button></li>
+                            <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%= track.trackid %>" value="50" /></li>
+                            <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Down</button></li>
+                            <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                            <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                            <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                            <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
+                            <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
+                            <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                                <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
+                                <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
+                                <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
+                                <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                            </ul>
+                    </div>
+                </div>
+            <% }); %>
+            </div>
+    </div>
+    <script type="text/javascript">
+        var waveformElements = document.querySelectorAll('[id^="waveform"]');
+        var numberOfWaveforms = waveformElements.length;
+        var wavesurfers = [];
+        var trackdatajson = '<%- JSON.stringify(trackdata) %>';
+        var trackdata = JSON.parse(trackdatajson);
+
+        for (let i = 0; i < numberOfWaveforms; i++) {
+            var wavesurfer = WaveSurfer.create({
+                container: `#waveform${trackdata.trackids[i]}`,
+                responsive: true,
+                height: 60,
+                waveColor: '#00F0FF',
+                progressColor: '#0070FF',
+            });
+
+            wavesurfer.load(trackdata.trackpaths[i]);
+
+            var playPauseBtn = document.getElementById(`playPauseBtn${trackdata.trackids[i]}`);
+            playPauseBtn.addEventListener('click', () => {
+                wavesurfer.playPause();
+                playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+            });
+
+            var loudnessInput = document.getElementById(`loudness${trackdata.trackids[i]}`);
+            loudnessInput.addEventListener('input', () => {
+                wavesurfer.setVolume(loudnessInput.value / 100);
+            });
+
+            var pitchDownBtn = document.getElementById(`pitchDownBtn${trackdata.trackids[i]}`);
+            pitchDownBtn.addEventListener('click', () => {
+                wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
+            });
+
+            var pitchUpBtn = document.getElementById(`pitchUpBtn${trackdata.trackids[i]}`);
+            pitchUpBtn.addEventListener('click', () => {
+                wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
+            });
+
+            var downloadBtn = document.getElementById(`downloadBtn${trackdata.trackids[i]}`);
+            downloadBtn.addEventListener('click', () => { });
+
+            wavesurfers.push(wavesurfer);
+        }
+    </script>
+<% } %>
+
+<% if (type === 'Samples' && action==='Downloaded') { %>
+    <div class="row" id="dsamples">
+        <h1 id="mydiv" data-test="<%=type%>">Downloaded <%= type %></h1>
+    <div class="row">
+        <% samples.forEach((sample, index) => { %>
+            <% if (index % 2 === 0 && index !== 0) { %>
+                </div>
+                <div class="row">
+            <% } %>
+            <div class="col-md-6">
+                <div class="sample">
+                    <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= sample.title %></h5>
+                            <p class="card-text"><%= sample.authorname %></p>
+                            <div id="waveform<%= sample.sampleid %>" class="wave"></div>
+                            <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="playPauseBtn<%= sample.sampleid %>" class="btn btn-secondary">Play</button>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <input type="range" id="loudness<%= sample.sampleid %>" value="50" />
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="pitchDownBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Down</button>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="pitchUpBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Up</button>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary">Download</button>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <p id="trackLength<%= sample.sampleid %>">Length: <%= sample.length %></p>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <p id="trackKey<%= sample.sampleid %>">Key: <%= sample.key %></p>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <p id="trackBPM<%= sample.sampleid %>">BPM: <%= sample.bpm %></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+    <script type="text/javascript">
+        var waveformElements = document.querySelectorAll('[id^="waveform"]');
+        var numberOfWaveforms = waveformElements.length;
+        var wavesurfers = [];
+        var sampledatajson = '<%-JSON.stringify(sampledata)%>';
+        var sampledata = JSON.parse(sampledatajson);
+
+
+        for (let i=0; i<numberOfWaveforms;i++)
+        {
+        var wavesurfer = WaveSurfer.create({
+        container: `#waveform${sampledata.sampleids[i]}`,
+        responsive: true,
+        height: 60,
+        waveColor: '#00F0FF',
+        progressColor: '#0070FF',
+    });
+
+    wavesurfer.load(sampledata.samplepaths[i]);
+
+    var playPauseBtn = document.getElementById(`playPauseBtn${sampledata.sampleids[i]}`);
+    playPauseBtn.addEventListener('click', () => {
+        wavesurfer.playPause();
+        playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+    });
+
+    var loudnessInput = document.getElementById(`loudness${sampledata.sampleids[i]}`);
+    loudnessInput.addEventListener('input', () => {
+        wavesurfer.setVolume(loudnessInput.value / 100);
+    });
+
+    var pitchDownBtn = document.getElementById(`pitchDownBtn${sampledata.sampleids[i]}`);
+    pitchDownBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
+    });
+
+    var pitchUpBtn = document.getElementById(`pitchUpBtn${sampledata.sampleids[i]}`);
+    pitchUpBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
+    });
+
+    var downloadBtn = document.getElementById(`downloadBtn${sampledata.sampleids[i]}`);
+    downloadBtn.addEventListener('click', () => {    });
+
+    wavesurfers.push(wavesurfer);
+    }
+    </script>
+
+<% } %>
+
+<% if (type === 'Packs' && action==='Downloaded') { %>
+    <% for (let i = 0; i < packs.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+            <div class="row">
+        <% } %>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="<%=packs[i].imagepath%>" class="card-img-top" alt="Pack Image">
+                <div class="card-body">
+                    <h5 class="card-title"><%= packs[i].title %></h5>
+                    <p class="card-text">Rating: <span class="badge bg-warning"><%= packs[i].rating %></span></p>
+                    <p class="card-text">Price: $<%= packs[i].price %></p>
+                    <ul class="list-group">
+                        <% packs[i].samples.forEach(sample => { %>
+                            <li class="list-group-item sound">
+                                <div id="waveform<%=sample.sampleid%>" class="wave"></div>
+                                <button type="button" id="playPauseBtn<%=sample.sampleid%>" class="btn btn-outline-light">
+                                    <img src="/images/play.png" alt="Play" width="20" height="20">
+                                </button>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <% if (i % 3 === 2 || i === packs.length - 1) { %>
+            </div>
+        <% } %>
+
+    <%}%>
+    <script type="text/javascript">
+        var waveformElements = document.querySelectorAll('[id^="waveform"]');
+        var numberOfWaveforms = waveformElements.length;
+        var wavesurfers = [];
+        var sampledatajson = '<%-JSON.stringify(sampledata)%>';
+        var sampledata = JSON.parse(sampledatajson);
+        var playPauseBtns = document.querySelectorAll('.btn-outline-light');
+
+        for (let i=0; i<numberOfWaveforms;i++)
+        {
+        var wavesurfer = WaveSurfer.create({
+        container: `#waveform${sampledata.sampleids[i]}`,
+        responsive: true,
+        height: 60,
+        waveColor: '#00F0FF',
+        progressColor: '#0070FF',
+    });
+    wavesurfer.load(sampledata.samplepaths[i]);
+    wavesurfers.push(wavesurfer);
+    }
+
+    playPauseBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        var img = btn.querySelector('img');
+        var isPlaying = wavesurfers[index].isPlaying();
+
+        // Seek to the start and toggle play/pause
+        if (isPlaying) {
+            wavesurfers[index].pause();
+            img.src = '/images/play.png'; // Change to play image
+            img.alt = 'Play';
+        } else {
+            wavesurfers[index].seekTo(0);
+            wavesurfers[index].play();
+            img.src = '/images/pause.png'; // Change to pause image
+            img.alt = 'Pause';
+        }
+    });
+});
+</script>
+<% } %>
+
+<% if (type === 'Presets' && action==='Downloaded') { %>
+    <%for (let i = 0; i < presets.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+            <div class="row" style="margin-bottom: 20px; margin-top: 15px;">
+        <% } %>
+
+        <div class="col-md-4">
+            <div class="card">
+                <img src="<%=presets[i].imagepath%>" class="card-img-top" alt="This will become an image">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=presets[i].title%></h5>
+                            <p class="card-text">Genre: <%=presets[i].genres%></p>
+                            <p class="card-text">VST: <%=presets[i].vst%></p>
+                            <p class="card-text">Author: <%=presets[i].authorname%></p>
+                            <p class="card-text">Price: <%=presets[i].price%></p>
+                            <p class="card-text">Rating: <%=presets[i].rating%></p>
+                        </div>
+                </div>
+        </div>
+
+        <% if (i % 3 === 2 || i === presets.length - 1) { %>
+        </div>
+        <% } %>
+    <% } %>
+<%}%>
+
+
+<% if (type === 'Plugins' && action==='Downloaded') { %>
+    <%for (let i = 0; i < plugins.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+            <div class="row" style="margin-bottom: 20px; margin-top: 15px;">
+        <% } %>
+
+        <div class="col-md-4">
+            <div class="card">
+                <img src="<%=plugins[i].imagepath%>" class="card-img-top" alt="VST Image">
+                <div class="card-body">
+                    <h5 class="card-title"><%=plugins[i].title%></h5>
+                    <p class="card-text"><%plugins[i].description%></p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-dark"><strong>Type:</strong><%=plugins[i].type%></li>
+                        <li class="list-group-item list-group-item-dark"><strong>Rating:</strong><%=plugins[i].rating%></li>
+                        <li class="list-group-item list-group-item-dark"><strong>Price:</strong><%=plugins[i].price%></li>
+                    </ul>
+                    <div class="mt-3">
+                        <small class="text-muted">Tags: Electronic, Synth</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% if (i % 3 === 2 || i === plugins.length - 1) { %>
+        </div>
+        <% } %>
+    <% } %>
+<%}%>
+
+
+<% if (type === 'Samples' && action==='Created') { %>
+    <div class="row" id="dsamples">
+        <h1 id="mydiv" data-test="<%=type%>">Created <%= type %></h1>
+    <div class="row">
+        <% samples.forEach((sample, index) => { %>
+            <% if (index % 2 === 0 && index !== 0) { %>
+                </div>
+                <div class="row">
+            <% } %>
+            <div class="col-md-6">
+                <div class="sample">
+                    <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= sample.title %></h5>
+                            <p class="card-text"><%= sample.authorname %></p>
+                            <div id="waveform<%= sample.sampleid %>" class="wave"></div>
+                            <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="playPauseBtn<%= sample.sampleid %>" class="btn btn-secondary">Play</button>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <input type="range" id="loudness<%= sample.sampleid %>" value="50" />
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="pitchDownBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Down</button>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="pitchUpBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Up</button>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary">Download</button>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <p id="trackLength<%= sample.sampleid %>">Length: <%= sample.length %></p>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <p id="trackKey<%= sample.sampleid %>">Key: <%= sample.key %></p>
+                                </li>
+                                <li class="list-group-item list-group-item-dark text-center">
+                                    <p id="trackBPM<%= sample.sampleid %>">BPM: <%= sample.bpm %></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+    <script type="text/javascript">
+        var waveformElements = document.querySelectorAll('[id^="waveform"]');
+        var numberOfWaveforms = waveformElements.length;
+        var wavesurfers = [];
+        var sampledatajson = '<%-JSON.stringify(sampledata)%>';
+        var sampledata = JSON.parse(sampledatajson);
+
+
+        for (let i=0; i<numberOfWaveforms;i++)
+        {
+        var wavesurfer = WaveSurfer.create({
+        container: `#waveform${sampledata.sampleids[i]}`,
+        responsive: true,
+        height: 60,
+        waveColor: '#00F0FF',
+        progressColor: '#0070FF',
+    });
+
+    wavesurfer.load(sampledata.samplepaths[i]);
+
+    var playPauseBtn = document.getElementById(`playPauseBtn${sampledata.sampleids[i]}`);
+    playPauseBtn.addEventListener('click', () => {
+        wavesurfer.playPause();
+        playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+    });
+
+    var loudnessInput = document.getElementById(`loudness${sampledata.sampleids[i]}`);
+    loudnessInput.addEventListener('input', () => {
+        wavesurfer.setVolume(loudnessInput.value / 100);
+    });
+
+    var pitchDownBtn = document.getElementById(`pitchDownBtn${sampledata.sampleids[i]}`);
+    pitchDownBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
+    });
+
+    var pitchUpBtn = document.getElementById(`pitchUpBtn${sampledata.sampleids[i]}`);
+    pitchUpBtn.addEventListener('click', () => {
+        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
+    });
+
+    var downloadBtn = document.getElementById(`downloadBtn${sampledata.sampleids[i]}`);
+    downloadBtn.addEventListener('click', () => {    });
+
+    wavesurfers.push(wavesurfer);
+    }
+    </script>
+
+<%}%>
+
+<% if (type === 'Packs' && action==='Created') { %>
+    <% for (let i = 0; i < packs.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+            <div class="row">
+        <% } %>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="<%=packs[i].imagepath%>" class="card-img-top" alt="Pack Image">
+                <div class="card-body">
+                    <h5 class="card-title"><%= packs[i].title %></h5>
+                    <p class="card-text">Rating: <span class="badge bg-warning"><%= packs[i].rating %></span></p>
+                    <p class="card-text">Price: $<%= packs[i].price %></p>
+                    <ul class="list-group">
+                        <% packs[i].samples.forEach(sample => { %>
+                            <li class="list-group-item sound">
+                                <div id="waveform<%=sample.sampleid%>" class="wave"></div>
+                                <button type="button" id="playPauseBtn<%=sample.sampleid%>" class="btn btn-outline-light">
+                                    <img src="/images/play.png" alt="Play" width="20" height="20">
+                                </button>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <% if (i % 3 === 2 || i === packs.length - 1) { %>
+            </div>
+        <% } %>
+
+    <%}%>
+    <script type="text/javascript">
+        var waveformElements = document.querySelectorAll('[id^="waveform"]');
+        var numberOfWaveforms = waveformElements.length;
+        var wavesurfers = [];
+        var sampledatajson = '<%-JSON.stringify(sampledata)%>';
+        var sampledata = JSON.parse(sampledatajson);
+        var playPauseBtns = document.querySelectorAll('.btn-outline-light');
+
+        for (let i=0; i<numberOfWaveforms;i++)
+        {
+        var wavesurfer = WaveSurfer.create({
+        container: `#waveform${sampledata.sampleids[i]}`,
+        responsive: true,
+        height: 60,
+        waveColor: '#00F0FF',
+        progressColor: '#0070FF',
+    });
+    wavesurfer.load(sampledata.samplepaths[i]);
+    wavesurfers.push(wavesurfer);
+    }
+
+    playPauseBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        var img = btn.querySelector('img');
+        var isPlaying = wavesurfers[index].isPlaying();
+
+        // Seek to the start and toggle play/pause
+        if (isPlaying) {
+            wavesurfers[index].pause();
+            img.src = '/images/play.png'; // Change to play image
+            img.alt = 'Play';
+        } else {
+            wavesurfers[index].seekTo(0);
+            wavesurfers[index].play();
+            img.src = '/images/pause.png'; // Change to pause image
+            img.alt = 'Pause';
+        }
+    });
+});
+    </script>
+
+<%}%>
+
+<% if (type === 'Presets' && action==='Created') { %>
+    <%for (let i = 0; i < presets.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+            <div class="row" style="margin-bottom: 20px; margin-top: 15px;">
+        <% } %>
+
+        <div class="col-md-4">
+            <div class="card">
+                <img src="<%=presets[i].imagepath%>" class="card-img-top" alt="This will become an image">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=presets[i].title%></h5>
+                            <p class="card-text">Genre: <%=presets[i].genres%></p>
+                            <p class="card-text">VST: <%=presets[i].vst%></p>
+                            <p class="card-text">Author: <%=presets[i].authorname%></p>
+                            <p class="card-text">Price: <%=presets[i].price%></p>
+                            <p class="card-text">Rating: <%=presets[i].rating%></p>
+                        </div>
+                </div>
+        </div>
+
+        <% if (i % 3 === 2 || i === presets.length - 1) { %>
+        </div>
+        <% } %>
+    <% } %>
+<%}%>    

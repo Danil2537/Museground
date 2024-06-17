@@ -61,35 +61,49 @@ app.get("/login", checkAuthenticated, (req, res) => {
 }
 });
 
-app.get("/profile", checkNotAuthenticated, async (req, res) => {
-  //console.log(req.isAuthenticated());
+// app.get("/profile", checkNotAuthenticated, async (req, res) => {
+//   //console.log(req.isAuthenticated());
+//   req.user.lastvisit = new Date();
+//   pool.query(
+//     `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
+//     (err, results) => {
+//       if (err) {
+//         throw err;
+//       }
+//       else
+//       {
+//         //console.log(req.user, results.rows)
+//       }
+//     }
+//   );
+//   var trackpaths = [];
+//   var trackids = [];
+//   const items = await getUserItems(req.user.userid);
+//   items.tracks.forEach(track=>{
+//     trackids.push(track.trackid);
+//     trackpaths.push(track.trackpath);
+//   })
+//   const trackdata = {trackpaths, trackids};
+//   //console.log(items);
+//   //console.log(trackids);
+//   //console.log(trackpaths);
+//   //items.packs.forEach(pack=>{pack.samples.forEach(sample=>{console.log(sample);})});
+//   res.render("profile", { user: req.user, items: items, trackdata: trackdata });
+// });
+
+app.get('/profile', async (req, res) => {
   req.user.lastvisit = new Date();
-  pool.query(
-    `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
-    (err, results) => {
-      if (err) {
-        throw err;
+    pool.query(
+      `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
+      (err, results) => {
+        if (err) {
+          throw err;
+        }
       }
-      else
-      {
-        //console.log(req.user, results.rows)
-      }
-    }
-  );
-  var trackpaths = [];
-  var trackids = [];
-  const items = await getUserItems(req.user.userid);
-  items.tracks.forEach(track=>{
-    trackids.push(track.trackid);
-    trackpaths.push(track.trackpath);
-  })
-  const trackdata = {trackpaths, trackids};
-  //console.log(items);
-  //console.log(trackids);
-  //console.log(trackpaths);
-  //items.packs.forEach(pack=>{pack.samples.forEach(sample=>{console.log(sample);})});
-  res.render("profile", { user: req.user, items: items, trackdata: trackdata });
-});
+    );
+    res.render("profile", { user: req.user, action: 'User', type: 'Profile'});  
+  });
+
 
 
 app.get('/profile/items/tracks', async (req, res) => {
@@ -105,7 +119,8 @@ app.get('/profile/items/tracks', async (req, res) => {
       //console.log(items);
       //console.log(trackids);
       //console.log(trackpaths);
-      res.render("downloads/dtracks", { user: req.user, tracks: items.tracks, trackdata: trackdata, type: 'Tracks'});      
+      //res.render("downloads/dtracks", { user: req.user, tracks: items.tracks, trackdata: trackdata, type: 'Tracks'}); 
+      res.render("profile", { user: req.user, tracks: items.tracks, trackdata: trackdata, action: 'Downloaded', type: 'Tracks'});     
   } catch (err) {
       res.status(500).send('Error retrieving tracks');
   }
@@ -121,7 +136,7 @@ app.get('/profile/items/samples', async (req, res) => {
         samplepaths.push(sample.samplepath);
       })
       const sampledata = {samplepaths, sampleids};
-      res.render("downloads/dsamples", { samples: items.samples, type: 'Samples', sampledata: sampledata });
+      res.render("profile", {user: req.user, samples: items.samples, type: 'Samples', sampledata: sampledata, action: 'Downloaded', type: 'Samples' });
   } catch (err) {
       res.status(500).send('Error retrieving samples');
   }
@@ -139,7 +154,7 @@ app.get('/profile/items/packs', async (req, res) => {
       });
       const sampledata = {samplepaths, sampleids};
       //console.log(sampledata);
-      res.render('downloads/dpacks', { packs: items.packs, type: 'Packs', sampledata: sampledata });
+      res.render('profile', { user: req.user, packs: items.packs, action: 'Downloaded', type: 'Packs', sampledata: sampledata });
   } catch (err) {
       res.status(500).send('Error retrieving packs');
   }
@@ -149,7 +164,7 @@ app.get('/profile/items/presets', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
 
-      res.render('downloads/dpresets', { presets: items.presets, type: 'Presets' });
+      res.render('profile', {user: req.user, presets: items.presets, action: 'Downloaded', type: 'Presets' });
   } catch (err) {
       res.status(500).send('Error retrieving presets');
   }
@@ -158,7 +173,7 @@ app.get('/profile/items/presets', async (req, res) => {
 app.get('/profile/items/plugins', async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
-      res.render('downloads/dplugins', { plugins: items.plugins, type: 'Plugins' });
+      res.render('profile', { user: req.user, plugins: items.plugins, action: 'Downloaded', type: 'Plugins' });
   } catch (err) {
       res.status(500).send('Error retrieving plugins');
   }
@@ -182,7 +197,8 @@ app.get('/profile/items/samples-created', async(req,res)=>{
               samplepaths.push(sample.samplepath);
             })
             const sampledata = {samplepaths, sampleids};
-            res.render("creations/csamples", {samples: samples, type: "Samples", sampledata: sampledata});
+            console.log(sampledata);
+            res.render("profile", {user: req.user, csamples: samples, action: 'Created', type: "Samples", csampledata: sampledata});
           }
         }
     )
@@ -207,7 +223,7 @@ app.get('/profile/items/packs-created', async (req, res) => {
     const sampleids = packs.flatMap(pack => pack.samples.map(sample => sample.sampleid));
 
     const sampledata = { samplepaths, sampleids };
-    res.render('creations/cpacks', { packs: packs, type: 'Packs', sampledata: sampledata });
+    res.render('profile', {user: req.user, packs: packs, action: 'Created', type: 'Packs', sampledata: sampledata });
   } catch (err) {
     console.error('Error retrieving created packs or their samples:', err);
     res.status(500).send('Error retrieving created packs or their samples');
@@ -226,7 +242,7 @@ app.get('/profile/items/presets-created', async(req,res)=>{
           else 
           {
             presets = results.rows;
-            res.render("creations/cpresets", {presets: presets, type: "Presets"});
+            res.render("profile", {user: req.user, presets: presets, action: 'Created', type: "Presets"});
           }
         }
     )

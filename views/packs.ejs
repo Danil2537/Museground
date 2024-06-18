@@ -4,309 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href = "./fonts/suprapower/stylesheet.css" rel = "stylesheet" type = "text/css"/>
-    <link href = "fonts/programme/style.css" rel = "stylesheet" type = "text/css" />
-    <link href = "mainstyle.css" rel = "stylesheet" type = "text/css"/>
+    <link href="/fonts/suprapower/stylesheet.css" rel="stylesheet" type="text/css"/>
+    <link href="/fonts/programme/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/mainstyle.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-.card img
-{
-    max-height: 400px;
-}
-h1, h2, h3, h4, h5, p 
-        {
-        margin-top: 0px;
-        margin-bottom: 20px;
-        color: #c7c7c7;
+        .card img {
+            max-height: 400px;
+        }
+        h1, h2, h3, h4, h5, p {
+            margin-top: 0px;
+            margin-bottom: 20px;
+            color: #c7c7c7;
         }
     </style>
-
 </head>
- <header>
-<nav class="navbar navbar-expand-lg bg-dark fixed-top" data-bs-theme="dark" style="z-index: 50; opacity: 0.85;">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group list-group-horizontal">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="copyrights.html">Copyright Tracks</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="usersamples.html">User Samples</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="packs.html">Packs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="vst.html">VST</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="presets.html">Presets</a>
-        </li>
-      </ul>
-      <div class="container-md">
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search for sounds</button>
-    </form>
-</div>
-  </div>
-</nav>
-      
-    </header>
-    <body>
-      <main class="container text-start" data-bs-theme="dark">
-      <div class="row">
-        <div clss="col-6 text-center">
-        <br>
-
-        </div>
-      </div>
-
-      <div class="row" style="margin-top: 50px;">
-        <h2>Choose youe Needs</h2>
-<div class="col-12">
-    <h3>Genres</h3>
-    <ul class="nav nav-pills nav-fill">
-<li class="nav-item"><span class="badge text-bg-secondary"><a>All Genres</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>8Bit Chiptune</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Acid</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Acoustic</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Afrobeat</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Ambient</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Big Room</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Blues</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Boom Bap</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Breakbeat</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Chill Out</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Cinematic</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Classical</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Comedy</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Country</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Crunk</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Dance</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Dancehall</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Deep House</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Dirty</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Disco</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Drum And Bass</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Dub</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Dubstep</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>EDM</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Electro</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Electronic</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Ethnic</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Folk</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Funk</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Fusion</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Garage</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Glitch</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Grime</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Grunge</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Hardcore</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Hardstyle</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Heavy Metal</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Hip Hop</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>House</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Indie</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Industrial</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Jazz</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Jungle</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Latin</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Lo-Fi</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Moombahton</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Orchestral</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Phonk</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Pop</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Psychedelic</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Punk</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Rap</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Rave</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Reggae</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Reggaeton</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Religious</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>RnB</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Rock</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Samba</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Ska</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Soul</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Spoken Word</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Techno</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Trance</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Trap</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Trip Hop</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>UK Drill</a></span></li>
-</ul>
-</div>
-      </div>
-      <div class="row">
-<div class="col-12">
-    <h3>Instruments</h3>
-<ul class="nav nav-pills nav-fill">
-<li class="nav-item"><span class="badge text-bg-secondary"><a>All Categories</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Accordion</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Arpeggio</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Bagpipe</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Banjo</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Bass</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Bass Guitar</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Bass Synth</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Bass Wobble</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Beatbox</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Bells</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Brass</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Choir</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Clarinet</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Didgeridoo</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Drum</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Flute</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Fx</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Groove</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Guitar Acoustic</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Guitar Electric</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Harmonica</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Harp</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Harpsichord</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Mandolin</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Orchestral</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Organ</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Pad</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Percussion</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Piano</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Rhodes Piano</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Scratch</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Sitar</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Soundscapes</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Strings</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Synth</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Tabla</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Ukulele</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Violin</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Vocal</a></span></li>
-<li class="nav-item"><span class="badge text-bg-secondary"><a>Woodwind</a></span></li>
-
-</ul>
-</div>
-      </div>
-    <div class="row">
-<div class="col-6">
-  <br>
-<h2>Popular Packs</h2>
-<br>
-</div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 mb-4">
-    <div class="card">
-        <img src="./media/trappack.png" class="card-img-top" alt="Sample Pack Image">
-        <div class="card-body">
-            <h5 class="card-title">Trap Drums</h5>
-            <p class="card-text">Rating: <span class="badge bg-warning">4.5</span></p>
-            <p class="card-text">Price: $19.99</p>
-            <ul class="list-group">
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
+<body style="background-color: #333333;">
+<header>
+    <nav class="navbar navbar-expand-lg bg-dark fixed-top" data-bs-theme="dark" style="z-index: 50; opacity: 0.85;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group list-group-horizontal">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login" aria-current="page" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile" aria-current="page" href="#">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tracks">Tracks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/samples">Samples</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/packs">Packs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/presets">Presets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/plugins">VST</a>
+                </li>
             </ul>
         </div>
-    </div>
-</div>
-        <div class="col-md-4 mb-4">
+    </nav>
+    <nav id="sidebar" class="col-md-3 col-lg-2 h-100 d-md-block sidebar" style="padding-top: 25px">
+        <div class="position-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs?sort=random"><h4 class="font-weight-bold">Random</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs?sort=genres"><h4 class="font-weight-bold">Genres</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs?sort=price"><h4 class="font-weight-bold">Price</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs?sort=rating"><h4 class="font-weight-bold">Rating</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs?sort=author"><h4 class="font-weight-bold">Author</h4></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-xs-5 px-lg-5" data-bs-theme="dark">
+    <h1>Sample Packs and Drum Kits</h1>
+    <% let previousValue = ''; %>
+    <% for (let i = 0; i < packs.length; i++) { %>
+        <% 
+            let currentValue = '';
+            if (sort === 'author') {
+                currentValue = packs[i].authorname;
+            } else if (sort === 'genres') {
+                currentValue = packs[i].genre;
+            }
+
+            if (currentValue !== previousValue) {
+                previousValue = currentValue;
+        %>
+            <h2><%= currentValue %></h2>
+        <% } %>
+        <% if (i % 3 === 0) { %>
+            <div class="row">
+        <% } %>
+        <div class="col-md-4">
             <div class="card">
-                <img src="./media/edmpack.png" class="card-img-top" alt="Sample Pack Image">
+                <img src="<%= packs[i].imagepath %>" class="card-img-top" alt="Pack Image">
                 <div class="card-body">
-                    <h5 class="card-title">EDM Pack</h5>
-                    <p class="card-text">Rating: <span class="badge bg-warning">4.5</span></p>
-                    <p class="card-text">Price: $19.99</p>
+                    <h5 class="card-title"><%= packs[i].title %></h5>
+                    <p class="card-text">Rating: <span class="badge bg-warning"><%= packs[i].rating %></span></p>
+                    <p class="card-text">Price: $<%= packs[i].price %></p>
                     <ul class="list-group">
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
+                        <% packs[i].samples.forEach(sample => { %>
+                            <li class="list-group-item sound">
+                                <div id="waveform<%= sample.sampleid %>" class="wave"></div>
+                                <button type="button" id="playPauseBtn<%= sample.sampleid %>" class="btn btn-outline-light">
+                                    <img src="/images/play.png" alt="Play" width="20" height="20">
+                                </button>
+                            </li>
+                        <% }) %>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="./media/dillapack.png" class="card-img-top" alt="Sample Pack Image">
-                <div class="card-body">
-                    <h5 class="card-title">J Dilla sounds</h5>
-                    <p class="card-text">Rating: <span class="badge bg-warning">4.5</span></p>
-                    <p class="card-text">Price: $19.99</p>
-                    <ul class="list-group">
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                <li class="list-group-item sound"></li>
-                    </ul>
-                </div>
+        <% if (i % 3 === 2 || i === packs.length - 1) { %>
             </div>
-        </div>
-
-
-    </div>
+        <% } %>
+    <% } %>
 </main>
-<script>
-function createTrackCard(trackContainer, trackNumber) {
-    // Create a new div element
-    const newTrackDiv = document.createElement('div');
-    //newTrackDiv.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3', 'g-4');
-    newTrackDiv.id = `waveform${trackNumber}`;
-
-    // HTML structure for the track card
-    newTrackDiv.innerHTML = `<button type="button" id="playPauseBtn${trackNumber}" class="btn btn-outline-light">
-                        <img src="./media/play.png" alt="Play" width="20" height="20">
-                    </button>`;
-
-    // Append the new track card to the specified track div
-    trackContainer.appendChild(newTrackDiv);
-}
-
-const trackElements = document.querySelectorAll('.sound');
-trackElements.forEach((trackElement, index) => {
-    createTrackCard(trackElement, index + 1);
-});
-
-
-const waveformElements = document.querySelectorAll('[id^="waveform"]');
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const waveformElements = document.querySelectorAll('[id^="waveform"]');
         const numberOfWaveforms = waveformElements.length;
         const wavesurfers = [];
+        const packsampledatajson = '<%-JSON.stringify(sampledata)%>';
+        const packsampledata = JSON.parse(packsampledatajson);
+        var playPauseBtns = document.querySelectorAll('.btn-outline-light');
 
-const soundWaveforms = [];
+        for (let i = 0; i < numberOfWaveforms; i++) {
+            const wavesurfer = WaveSurfer.create({
+                container: `#waveform${packsampledata.sampleids[i]}`,
+                responsive: true,
+                height: 60,
+                waveColor: '#00F0FF',
+                progressColor: '#0070FF',
+            });
+            wavesurfer.load(packsampledata.samplepaths[i]);
+            wavesurfers.push(wavesurfer);
+        }
 
-    for (let i = 1; i <= numberOfWaveforms; i++) {
-        const soundWaveform = WaveSurfer.create({
-            container: `#waveform${i}`,
-            responsive: true,
-            height: 50,
-            waveColor: '#00F0FF',
-            progressColor: '#0070FF',
-        });
+        playPauseBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                var img = btn.querySelector('img');
+                var isPlaying = wavesurfers[index].isPlaying();
 
-        soundWaveform.load(`./sounds/sound${i}.wav`);
-
-        soundWaveforms.push(soundWaveform);
-    }
-
-    const playPauseBtns = document.querySelectorAll('.btn-outline-light');
-
-    playPauseBtns.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            // Seek to the start (0 seconds) before playing
-            soundWaveforms[index].seekTo(0);
-            soundWaveforms[index].play();
+                if (isPlaying) {
+                    wavesurfers[index].pause();
+                    img.src = '/images/play.png';
+                    img.alt = 'Play';
+                } else {
+                    wavesurfers[index].seekTo(0);
+                    wavesurfers[index].play();
+                    img.src = '/images/pause.png';
+                    img.alt = 'Pause';
+                }
+            });
         });
     });
 </script>

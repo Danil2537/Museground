@@ -296,8 +296,55 @@ app.post('/samples/query', async (req, res) => {
   }
 });
 
-app.get('/packs', async(req,res)=>{
-  res.render('packs');
+app.get('/packs', async (req, res) => {
+  const { sort } = req.query;
+
+  let orderByClause = '';
+  switch (sort) {
+    case 'random':
+      orderByClause = 'ORDER BY RANDOM()';
+      break;
+    case 'genres':
+      orderByClause = 'ORDER BY genre';
+      break;
+    case 'price':
+      orderByClause = 'ORDER BY price DESC';
+      break;
+    case 'rating':
+      orderByClause = 'ORDER BY rating DESC';
+      break;
+    case 'author':
+      orderByClause = 'ORDER BY author';
+      break;
+    default:
+      orderByClause = ''; // Default sorting, or you can set another default here
+  }
+
+  try {
+    const packResults = await pool.query(`SELECT * FROM museground.pack ${orderByClause}`);
+    const packs = packResults.rows;
+
+    const sampleids = [];
+    const samplepaths = [];
+
+    const packPromises = packs.map(async (pack) => {
+      const sampleResults = await pool.query(`SELECT * FROM museground.sample WHERE belongto = $1`, [pack.packid]);
+      pack.samples = sampleResults.rows;
+
+      pack.samples.forEach(sample => {
+        sampleids.push(sample.sampleid);
+        samplepaths.push(sample.samplepath);
+      });
+    });
+
+    await Promise.all(packPromises);
+
+    const sampledata = { sampleids, samplepaths };
+    res.render('packs', { packs, sampledata, sort });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 app.get('/presets', async(req,res)=>{
@@ -447,6 +494,8 @@ function getSamples(query, params) {
     });
   });
 }
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

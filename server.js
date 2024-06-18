@@ -244,7 +244,56 @@ app.get('/tracks/labels', async(req,res)=>{
 });
 
 app.get('/samples', async(req,res)=>{
-  res.render('samples');
+  const {samples, sampledata} = await getSamples(`SELECT * FROM museground.sample`, []);
+  res.render('samples', {samples: samples, sampledata: sampledata});
+});
+
+
+app.post('/samples/query', async (req, res) => {
+  const { instrument, author, key, genre, minbpm, maxbpm } = req.body;
+  const conditions = [];
+  const values = [];
+  console.log(req.body);
+  let query = 'SELECT * FROM museground.sample';
+
+  if (instrument) {
+    conditions.push('instrument = $' + (conditions.length + 1));
+    values.push(instrument);
+  }
+  if (author) {
+    conditions.push('authorname = $' + (conditions.length + 1));
+    values.push(author);
+  }
+  if (key) {
+    conditions.push('key = $' + (conditions.length + 1));
+    values.push(key);
+  }
+  if (genre) {
+    conditions.push('genre = $' + (conditions.length + 1));
+    values.push(genre);
+  }
+  if (minbpm) {
+    conditions.push('bpm >= $' + (conditions.length + 1));
+    values.push(minbpm);
+  }
+  if (maxbpm) {
+    conditions.push('bpm <= $' + (conditions.length + 1));
+    values.push(maxbpm);
+  }
+
+  if (conditions.length > 0) {
+    query += ' WHERE ' + conditions.join(' AND ');
+  }
+
+  try {
+    console.log(query);
+    const { samples, sampledata } = await getSamples(query, values);
+    console.log(samples, sampledata);
+    res.render('samples', { samples: samples, sampledata: sampledata });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 app.get('/packs', async(req,res)=>{
@@ -332,8 +381,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post(
-  "/login",
+app.post("/login",
   passport.authenticate("local", {
     successRedirect: "/profile",
     failureRedirect: "/login",
@@ -378,6 +426,27 @@ function getTracks(query) {
   });
 }
 
+function getSamples(query, params) {
+  return new Promise((resolve, reject) => {
+    pool.query(query, params, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        const samples = results.rows;
+        const sampleids = [];
+        const samplepaths = [];
+        
+        samples.forEach(sample => {
+          sampleids.push(sample.sampleid);
+          samplepaths.push(sample.samplepath);
+        });
+        
+        const sampledata = { sampleids, samplepaths };
+        resolve({ samples, sampledata });
+      }
+    });
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

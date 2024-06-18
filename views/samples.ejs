@@ -55,52 +55,17 @@
 <body data-bs-theme="dark">
   <main class="container mt-5" >
     <div class="row">
-    <form>
+    <form action="/samples/query" method="POST">
         <div class="row g-3">
-            <div class="col-md-4">
+            <div class="col-md-4 ">            
                 <label for="instrument" class="form-label">Instrument</label>
-                <select class="form-select" id="instrument" name="instrument">
-<option value="" selected="selected">All Categories</option>
-<option value="40">Accordion</option>
-<option value="47">Arpeggio</option>
-<option value="35">Bagpipe</option>
-<option value="36">Banjo</option>
-<option value="2">Bass</option>
-<option value="43">Bass Guitar</option>
-<option value="44">Bass Synth</option>
-<option value="39">Bass Wobble</option>
-<option value="31">Beatbox</option>
-<option value="42">Bells</option>
-<option value="23">Brass</option>
-<option value="34">Choir</option>
-<option value="37">Clarinet</option>
-<option value="28">Didgeridoo</option>
-<option value="1">Drum</option>
-<option value="7">Flute</option>
-<option value="5">Fx</option>
-<option value="24">Groove</option>
-<option value="33">Guitar Acoustic</option>
-<option value="3">Guitar Electric</option>
-<option value="25">Harmonica</option>
-<option value="41">Harp</option>
-<option value="30">Harpsichord</option>
-<option value="32">Mandolin</option>
-<option value="22">Orchestral</option>
-<option value="26">Organ</option>
-<option value="11">Pad</option>
-<option value="20">Percussion</option>
-<option value="21">Piano</option>
-<option value="46">Rhodes Piano</option>
-<option value="12">Scratch</option>
-<option value="9">Sitar</option>
-<option value="45">Soundscapes</option>
-<option value="10">Strings</option>
-<option value="4">Synth</option>
-<option value="8">Tabla</option>
-<option value="38">Ukulele</option>
-<option value="29">Violin</option>
-<option value="6">Vocal</option>
-<option value="27">Woodwind</option>
+                <select class="form-select" id="instrument" name="instrument">       
+                    <option value="" selected="selected">All Categories</option>
+                    <option value="Bass">Bass</option>
+                    <option value="Drum">Drum</option>
+                    <option value="Guitar">Guitar</option>
+                    <option value="Piano">Piano</option>
+                    <option value="Vocal">Vocal</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -141,214 +106,125 @@
                 <label for="genre" class="form-label">Genre</label>
                 <select class="form-select" id="genre" name="genre">
 <option value="" selected="selected">All Genres</option>
-<option value="56">8Bit Chiptune</option>
-<option value="52">Acid</option>
-<option value="3">Acoustic</option>
-<option value="67">Afrobeat</option>
-<option value="2">Ambient</option>
-<option value="66">Big Room</option>
-<option value="33">Blues</option>
-<option value="65">Boom Bap</option>
-<option value="37">Breakbeat</option>
-<option value="21">Chill Out</option>
-<option value="36">Cinematic</option>
-<option value="13">Classical</option>
-<option value="51">Comedy</option>
-<option value="44">Country</option>
-<option value="39">Crunk</option>
-<option value="17">Dance</option>
-<option value="55">Dancehall</option>
-<option value="30">Deep House</option>
-<option value="23">Dirty</option>
-<option value="18">Disco</option>
-<option value="11">Drum And Bass</option>
-<option value="5">Dub</option>
-<option value="49">Dubstep</option>
-<option value="64">EDM</option>
-<option value="42">Electro</option>
-<option value="16">Electronic</option>
-<option value="15">Ethnic</option>
-<option value="25">Folk</option>
-<option value="19">Funk</option>
-<option value="46">Fusion</option>
-<option value="24">Garage</option>
-<option value="31">Glitch</option>
-<option value="43">Grime</option>
-<option value="53">Grunge</option>
-<option value="48">Hardcore</option>
-<option value="61">Hardstyle</option>
-<option value="27">Heavy Metal</option>
-<option value="7">Hip Hop</option>
-<option value="22">House</option>
-<option value="63">Indie</option>
-<option value="38">Industrial</option>
-<option value="6">Jazz</option>
-<option value="10">Jungle</option>
-<option value="69">Latin</option>
-<option value="62">Lo-Fi</option>
-<option value="57">Moombahton</option>
-<option value="34">Orchestral</option>
-<option value="70">Phonk</option>
-<option value="50">Pop</option>
-<option value="60">Psychedelic</option>
-<option value="14">Punk</option>
-<option value="8">Rap</option>
-<option value="20">Rave</option>
-<option value="4">Reggae</option>
-<option value="32">Reggaeton</option>
-<option value="45">Religious</option>
-<option value="12">RnB</option>
-<option value="1">Rock</option>
-<option value="29">Samba</option>
-<option value="41">Ska</option>
-<option value="59">Soul</option>
-<option value="47">Spoken Word</option>
-<option value="9">Techno</option>
-<option value="28">Trance</option>
-<option value="54">Trap</option>
-<option value="58">Trip Hop</option>
-<option value="68">UK Drill</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="keyword" class="form-label">Keyword</label>
-                <input type="text" class="form-control" id="keyword" name="keyword">
-            </div>
-            <div class="col-md-4">
-                <label for="date" class="form-label">Date</label>
-                <select class="form-select" id="date" name="date">
-<option value="" selected="selected">Any Date</option>
-<option value="1">Last 24 Hours</option>
-<option value="5">Last 48 Hours</option>
-<option value="2">Last 7 Days</option>
-<option value="3">Last 30 Days</option>
-<option value="4">Last 60 Days</option>
+<option value="Pop">Pop</option>
+<option value="Rock">Rock</option>
+<option value="House">House</option>
+<option value="Drum&Bass">Drum&Bass</option>
+<option value="Dubstep">Dubstep</option>
+<option value="Hip-Hop">Hip-Hop</option>
                 </select>
             </div>
             <div class="col-md-4">
                 <label for="min-bpm" class="form-label">Min BPM</label>
-                <input type="number" class="form-control" id="min-bpm" name="min-bpm">
+                <input type="number" class="form-control" id="minbpm" name="minbpm">
             </div>
             <div class="col-md-4">
                 <label for="max-bpm" class="form-label">Max BPM</label>
-                <input type="number" class="form-control" id="max-bpm" name="max-bpm">
+                <input type="number" class="form-control" id="maxbpm" name="maxbpm">
             </div>
         </div>
 
         <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Apply Filter</button>
+            <button type="submit" value="Query" class="btn btn-primary">Apply Filter</button>
         </div>
     </form>
   </div>
   <div class="row">
-        <h2>Some Random Samples</h2><hr>
+    <% samples.forEach((sample, index) => { %>
+        <% if (index % 2 === 0 && index !== 0) { %>
+            </div>
+            <div class="row">
+        <% } %>
         <div class="col-md-6">
-<ul>
-    <li><div class="sample"></div></li>
-    <li><div class="sample"></div></li>
-    <li><div class="sample"></div></li>
-</ul>
-        </div>
-        <div class="col-md-6">
-<ul>
-    <li><div class="sample"></div></li>
-    <li><div class="sample"></div></li>
-    <li><div class="sample"></div></li>
-</ul>           
-        </div>
-    </div>
-  </main>
-   <script>
-  function createTrackCard(trackContainer, trackNumber) {
-    // Create a new div element
-    const newTrackDiv = document.createElement('div');
-    newTrackDiv.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3', 'g-4');
-
-    // HTML structure for the track card
-    newTrackDiv.innerHTML = `
-        <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
-            <div class="card-body">
-                <h5 class="card-title">Track Title ${trackNumber}</h5>
-                <p class="card-text">Artist Name</p>
-                <div id="waveform${trackNumber}" class="wave"></div>
-                <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
-                    <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn${trackNumber}" class="btn btn-secondary">Play</button></li>
-                    <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness${trackNumber}" value="50" /></li>
-                    <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn${trackNumber}" class="btn btn-secondary">Pitch Down</button></li>
-                    <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn${trackNumber}" class="btn btn-secondary">Pitch Up</button></li>
-                </ul>
-                <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                    <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn${trackNumber}" class="btn btn btn-secondary ">Download</button></li>
-                    <li class="list-group-item list-group-item-dark text-center"><p id="trackLength${trackNumber}">Track Length:</p></li>
-                    <li class="list-group-item list-group-item-dark text-center"><p id="trackKey${trackNumber}">Track Key: </p></li>
-                    <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM${trackNumber}">Track BPM: </p></li>
+            <div class="sample">
+                <div class="card h-100 w-100 bg-dark" style="color: #c7c7c7; margin-top: 50px;">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= sample.title %></h5>
+                        <p class="card-text"><%= sample.authorname %></p>
+                        <div id="waveform<%= sample.sampleid %>" class="wave"></div>
+                        <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <button id="playPauseBtn<%= sample.sampleid %>" class="btn btn-secondary">Play</button>
+                            </li>
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <input type="range" id="loudness<%= sample.sampleid %>" value="50" />
+                            </li>
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <button id="pitchDownBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Down</button>
+                            </li>
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <button id="pitchUpBtn<%= sample.sampleid %>" class="btn btn-secondary">Pitch Up</button>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary">Download</button>
+                            </li>
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <p id="trackLength<%= sample.sampleid %>">Length: <%= sample.length %></p>
+                            </li>
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <p id="trackKey<%= sample.sampleid %>">Key: <%= sample.key %></p>
+                            </li>
+                            <li class="list-group-item list-group-item-dark text-center">
+                                <p id="trackBPM<%= sample.sampleid %>">BPM: <%= sample.bpm %></p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    `;
+    <% }); %>
+    </div>
+  </main>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+    const waveformElements = document.querySelectorAll('[id^="waveform"]');
+    const numberOfWaveforms = waveformElements.length;
+    const wavesurfers = [];
+    const sampledatajson = '<%-JSON.stringify(sampledata)%>';
+    const sampledata = JSON.parse(sampledatajson);
 
-    trackContainer.appendChild(newTrackDiv);
-}
 
-const trackElements = document.querySelectorAll('.sample');
-trackElements.forEach((trackElement, index) => {
-    createTrackCard(trackElement, index + 1);
+    for (let i=0; i<numberOfWaveforms;i++)
+    {
+    const wavesurfer = WaveSurfer.create({
+    container: `#waveform${sampledata.sampleids[i]}`,
+    responsive: true,
+    height: 60,
+    waveColor: '#00F0FF',
+    progressColor: '#0070FF',
 });
 
+wavesurfer.load(sampledata.samplepaths[i]);
 
-const waveformElements = document.querySelectorAll('[id^="waveform"]');
-        const numberOfWaveforms = waveformElements.length;
-        const wavesurfers = [];
+const playPauseBtn = document.getElementById(`playPauseBtn${sampledata.sampleids[i]}`);
+playPauseBtn.addEventListener('click', () => {
+    wavesurfer.playPause();
+    playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
+});
 
-for (let i = 1; i <= numberOfWaveforms; i++) {
-    const wavesurfer = WaveSurfer.create({
-        container: `#waveform${i}`,
-        responsive: true,
-        height: 60,
-        dragToSeek: true,
-        waveColor: '#00F0FF',
-        progressColor: '#0070FF',
-    });
+const loudnessInput = document.getElementById(`loudness${sampledata.sampleids[i]}`);
+loudnessInput.addEventListener('input', () => {
+    wavesurfer.setVolume(loudnessInput.value / 100);
+});
 
-    wavesurfer.load(`./samples/sample${i}.mp3`);
+const pitchDownBtn = document.getElementById(`pitchDownBtn${sampledata.sampleids[i]}`);
+pitchDownBtn.addEventListener('click', () => {
+    wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
+});
 
-    const playPauseBtn = document.getElementById(`playPauseBtn${i}`);
-    playPauseBtn.addEventListener('click', () => {
-        wavesurfer.playPause();
-        playPauseBtn.innerText = wavesurfer.isPlaying() ? 'Pause' : 'Play';
-    });
+const pitchUpBtn = document.getElementById(`pitchUpBtn${sampledata.sampleids[i]}`);
+pitchUpBtn.addEventListener('click', () => {
+    wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
+});
 
-    const loudnessInput = document.getElementById(`loudness${i}`);
-    loudnessInput.addEventListener('input', () => {
-        wavesurfer.setVolume(loudnessInput.value / 100);
-    });
+const downloadBtn = document.getElementById(`downloadBtn${sampledata.sampleids[i]}`);
+downloadBtn.addEventListener('click', () => {    });
 
-    const pitchDownBtn = document.getElementById(`pitchDownBtn${i}`);
-    pitchDownBtn.addEventListener('click', () => {
-        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() - 0.1);
-    });
-
-    const pitchUpBtn = document.getElementById(`pitchUpBtn${i}`);
-    pitchUpBtn.addEventListener('click', () => {
-        wavesurfer.setPlaybackRate(wavesurfer.getPlaybackRate() + 0.1);
-    });
-
-    const downloadBtn = document.getElementById(`downloadBtn${i}`);
-    downloadBtn.addEventListener('click', () => {    });
-
-
-    // Track information (replace with actual data)
-    const trackLength = document.getElementById(`trackLength${i}`);
-    trackLength.innerText = 'Length: 2:45';
-
-    const trackKey = document.getElementById(`trackKey${i}`);
-    trackKey.innerText = 'Key: C Minor';
-
-    const trackBPM = document.getElementById(`trackBPM${i}`);
-    trackBPM.innerText = 'BPM: 120';
-
-    wavesurfers.push(wavesurfer);
-    }
-   </script>
+wavesurfers.push(wavesurfer);
+}
+});
+</script>
 </body>
 </html>

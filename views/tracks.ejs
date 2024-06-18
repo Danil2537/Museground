@@ -44,19 +44,16 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><h4 class="font-weight-bold">New Arrivals</h4></a>
+                        <a class="nav-link" href="/tracks/new"><h4 class="font-weight-bold">New Arrivals</h4></a>
                     </li>
                     <li class="nav-item">
-                       <a class="nav-link" href="#"> <h4 class="font-weight-bold">Collections</h4></a>
+                        <a class="nav-link" href="/tracks/genres"><h4 class="font-weight-bold">Genres</h4></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><h4 class="font-weight-bold">Genres</h4></a>
+                      <a class="nav-link" href="/tracks/authors"><h4 class="font-weight-bold">Artists</h4></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#"><h4 class="font-weight-bold">Artists</h4></a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#"><h4 class="font-weight-bold">Labels</h4></a>
+                    <a class="nav-link" href="/tracks/labels"><h4 class="font-weight-bold">Labels</h4></a>
                     </li>
         </ul>
     </div>
@@ -95,11 +92,39 @@
           </div>            
           <%})%>
         <% } %>
+        <% if (type==='New') {%>
+          <% tracks.forEach(track => {%> 
+            <div class="card h-80 w-100 bg-dark track-big">
+              <div class="card-body">
+                  <h5 class="card-title"><%= track.title %></h5>
+                  <p class="card-text"><%= track.author %></p>
+                  <div id="waveform<%= track.trackid %>" class="wave"></div>
+                  <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                      <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%= track.trackid %>" class="btn btn-secondary">Play</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%= track.trackid %>" value="50" /></li>
+                      <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Down</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
+                      <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                      </ul>
+              </div>
+          </div>            
+          <%})%>
+        <%}%> 
         <% if (type==='Genres') {%>
           <% let previousGenre = String(); %>
           <% tracks.forEach(track => {%> 
             <% if (previousGenre!=track.genre.toString()) {%>   
-              <h1><%=track.genre%></h1>
+              <h1><%=track.genre%></h1><hr>
             <%} else { previousGenre = track.genre.toString();}%>
             <div class="card h-80 w-100 bg-dark track-big">
               <div class="card-body">
@@ -128,15 +153,85 @@
           <%}) %>
         <% } %>
         <% if (type==='Authors') {%>
-          
+          <% let previousAuthor = String(); %>
+          <% tracks.forEach(track => {%> 
+            <% if (previousAuthor!=track.author.toString()) {%>   
+              <h1><%=track.author%></h1><hr>
+            <%} else { previousAuthor = track.author.toString();}%>
+            <div class="card h-80 w-100 bg-dark track-big">
+              <div class="card-body">
+                  <h5 class="card-title"><%= track.title %></h5>
+                  <p class="card-text"><%= track.author %></p>
+                  <div id="waveform<%= track.trackid %>" class="wave"></div>
+                  <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                      <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%= track.trackid %>" class="btn btn-secondary">Play</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%= track.trackid %>" value="50" /></li>
+                      <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Down</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
+                      <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                      </ul>
+              </div>
+          </div>
+          <%}) %>
         <% } %>
         <% if (type==='Labels') {%>
-          
+          <% let previousLabel = String(); %>
+          <% tracks.forEach(track => {%> 
+            <% if (previousLabel!=track.label.toString()) {%>   
+              <h1><%=track.label%></h1><hr>
+            <%} else { previousLabel = track.label.toString();}%>
+            <div class="card h-80 w-100 bg-dark track-big">
+              <div class="card-body">
+                  <h5 class="card-title"><%= track.title %></h5>
+                  <p class="card-text"><%= track.author %></p>
+                  <div id="waveform<%= track.trackid %>" class="wave"></div>
+                  <ul class="controls list-group list-group-horizontal" style="padding: 10px 0px 5px 0px; display: flex">
+                      <li class="list-group-item list-group-item-dark text-center"><button id="playPauseBtn<%= track.trackid %>" class="btn btn-secondary">Play</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><input type="range" id="loudness<%= track.trackid %>" value="50" /></li>
+                      <li class="list-group-item list-group-item-dark text-center"><button id="pitchDownBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Down</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
+                      <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
+                      <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                      </ul>
+              </div>
+          </div>
+          <%}) %>
         <% } %>
         </div>
     </div>
 </main>
 <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('#sidebar a.nav-link');
+
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+});
   document.addEventListener('DOMContentLoaded', function() {
   const waveformElements = document.querySelectorAll('[id^="waveform"]');
   const trackdatajson = '<%- JSON.stringify(trackdata) %>';

@@ -219,42 +219,28 @@ app.get('/profile/items/presets-created', async(req,res)=>{
 })
 
 app.get('/tracks', async(req,res)=>{
-  var tracks = [];
-  var trackids = [];
-  var trackpaths = [];
-  pool.query(
-    `SELECT * FROM museground.track ORDER BY trackid ASC`, [], (err, results) =>
-    {
-      if(err) {throw err;}
-      else
-      {
-        tracks = results.rows;
-        tracks.forEach(track=>{
-          trackids.push(track.trackid);
-          trackpaths.push(track.trackpath);
-        });
-        const trackdata = {trackids, trackpaths};
-        console.log(tracks, trackdata);
-          res.render('tracks', { type: 'Random', tracks: tracks, trackdata: trackdata});
-      }
-    }
-  )
+  const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY trackid');
+  res.render('tracks', { type: 'Random', tracks: tracks, trackdata: trackdata});
 });
 
 app.get('/tracks/new', async(req,res)=>{
-  res.render('tracks');
+  const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY dateadded DESC LIMIT 5;');
+  res.render('tracks', { type: 'New', tracks: tracks, trackdata: trackdata});
 });
 
 app.get('/tracks/genres', async(req,res)=>{
-  res.render('tracks');
+  const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY genre ASC;');
+  res.render('tracks', { type: 'Genres', tracks: tracks, trackdata: trackdata});
 });
 
 app.get('/tracks/authors', async(req,res)=>{
-  res.render('tracks');
+  const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY author ASC;');
+  res.render('tracks', { type: 'Authors', tracks: tracks, trackdata: trackdata});
 });
 
 app.get('/tracks/labels', async(req,res)=>{
-  res.render('tracks');
+  const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY label ASC;');
+  res.render('tracks', { type: 'Labels', tracks: tracks, trackdata: trackdata});
 });
 
 app.get('/samples', async(req,res)=>{
@@ -270,7 +256,7 @@ app.get('/presets', async(req,res)=>{
 });
 
 app.get('/plugins', async(req,res)=>{
-  res.render('plugins');
+  res.render('vst');
 });
 
 app.get('/logout', function(req, res, next) {
@@ -368,6 +354,30 @@ function checkNotAuthenticated(req, res, next) {
   }
   res.redirect("/login");
 }
+
+function getTracks(query) {
+  return new Promise((resolve, reject) => {
+    pool.query(query, [], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        const tracks = results.rows;
+        const trackids = [];
+        const trackpaths = [];
+        
+        tracks.forEach(track => {
+          trackids.push(track.trackid);
+          trackpaths.push(track.trackpath);
+        });
+        
+        const trackdata = { trackids, trackpaths };
+        console.log(tracks, trackdata);
+        resolve({ tracks, trackdata });
+      }
+    });
+  });
+}
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

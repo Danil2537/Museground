@@ -4,347 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href = "./fonts/suprapower/stylesheet.css" rel = "stylesheet" type = "text/css"/>
-    <link href = "fonts/programme/style.css" rel = "stylesheet" type = "text/css" />
-    <link href = "mainstyle.css" rel = "stylesheet" type = "text/css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href = "mainstyle.css" rel = "stylesheet" type = "text/css"/>
+    <link href="/fonts/suprapower/stylesheet.css" rel="stylesheet" type="text/css"/>
+    <link href="/fonts/programme/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/mainstyle.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card img {
+            max-height: 400px;
+        }
+        h1, h2, h3, h4, h5, p {
+            margin-top: 0px;
+            margin-bottom: 20px;
+            color: #c7c7c7;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-dark fixed-top" data-bs-theme="dark" style="z-index: 50; opacity: 0.85;">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group list-group-horizontal">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="copyrights.html">Copyright Tracks</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="usersamples.html">User Samples</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="packs.html">Packs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="vst.html">VST</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="presets.html">Presets</a>
-        </li>
-      </ul>
-  </div>
-</nav>
-    </header>
-
-    <div class="container-fluid mt-5">
-        <div class="row">
-            <!-- Sidebar -->
+<body style="background-color: #333333;">
+<header>
+    <nav class="navbar navbar-expand-lg bg-dark fixed-top" data-bs-theme="dark" style="z-index: 50; opacity: 0.85;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group list-group-horizontal">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login" aria-current="page">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile" aria-current="page">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tracks">Tracks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/samples">Samples</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/packs">Packs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/presets">Presets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/plugins">VST</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 <nav id="sidebar" class="col-md-3 col-lg-2 h-100 d-md-block sidebar">
     <div class="position-sticky">
         <ul class="nav flex-column">
             <!-- Genres Headline -->
             <li class="nav-item">
-                <h4 class="font-weight-bold">
-                    Genres
-                </h4>
+                <h4 class="font-weight-bold">Genres</h4>
                 <ul class="nav flex-column ml-3">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Drum & Bass</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Techno</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">House</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">LO-FI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dubstep</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Ambient</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Trap</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">EDM</a>
-                    </li>
+                    <% genres.forEach(genre => { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/presets/genres/<%= genre %>"><%= genre %></a>
+                        </li>
+                    <% }) %>
                 </ul>
             </li>
 
             <!-- Types Headline -->
             <li class="nav-item">
-                <h4 class="font-weight-bold">
-                    Types
-                </h4>
+                <h4 class="font-weight-bold">Types</h4>
                 <ul class="nav flex-column ml-3">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Bass</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Lead</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Synth</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pluck</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">FX</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Wavetable</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sequences</a>
-                    </li>
+                    <% types.forEach(type => { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/presets/types/<%= type %>"><%= type %></a>
+                        </li>
+                    <% }) %>
                 </ul>
             </li>
 
+            <!-- Plugins Headline -->
             <li class="nav-item">
-                <h4 class="font-weight-bold">
-                    VST
-                </h4>
+                <h4 class="font-weight-bold">VST</h4>
                 <ul class="nav flex-column ml-3">
-                    <!-- VST Options -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Serum</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Kontakt 7</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Guitar Rig 5</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Omnisphere</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Vital</a>
-                    </li>
+                    <% plugins.forEach(plugin => { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/presets/vst/<%= plugin %>"><%= plugin %></a>
+                        </li>
+                    <% }) %>
                 </ul>
             </li>
         </ul>
     </div>
 </nav>
-<main class="col-md-9 ms-sm-auto col-lg-10 px-sm-5 px-lg-5" data-bs-theme="dark">
-    <h2>Popular</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/1669046066_Black%20Octopus%20Sound%20-%20Imaginate%20Elements%20Series%20-%20Aer%20-%20Anthemic%20Drum%20and%20Bass%20-%201000.jpg/2873e627fd412597d5a83dbd1219601dbfcb54547deafb05508b184d9d1bcfbd?response-content-disposition=inline%3B%20filename%3D%22Black%20Octopus%20Sound%20-%20Imaginate%20Elements%20Series%20-%20Aer%20-%20Anthemic%20Drum%20and%20Bass%20-%201000.jpg%22%3B%20filename%2A%3DUTF-8%27%27Black%2520Octopus%2520Sound%2520-%2520Imaginate%2520Elements%2520Series%2520-%2520Aer%2520-%2520Anthemic%2520Drum%2520and%2520Bass%2520-%25201000.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=f04ff7147d03c8911292655a711c8622624944616dd32cc6aa74d8e682e27193" class="card-img-top" alt="This will become an image">
-                            <div class="card-body">
-                                <h5 class="card-title">Title 1</h5>
-                                <p class="card-text">Genre: Genre 1</p>
-                                <p class="card-text">VST: Serum</p>
-                                <p class="card-text">Author: Author 1</p>
-                                <p class="card-text">Price: $9.99</p>
-                                <p class="card-text">Rating: 4.5</p>
-                            </div>
-                    </div>
-            </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/wd6sxt2uuiQRJAVmGCYcbVfJ/2873e627fd412597d5a83dbd1219601dbfcb54547deafb05508b184d9d1bcfbd?response-content-disposition=inline%3B%20filename%3D%22auraformv2art.jpg%22%3B%20filename%2A%3DUTF-8%27%27auraformv2art.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=7dbf7759eef9631b1bdaa7df6002387e93df5c0ee9f746405fd69262b58e4ff1" class="card-img-top" alt="Thumbnail 2">
-                            <div class="card-body">
-                                <h5 class="card-title">Title 2</h5>
-                                <p class="card-text">VST: Serum</p>
-                                <p class="card-text">Genre: Genre 2</p>
-                                <p class="card-text">Author: Author 2</p>
-                                <p class="card-text">Price: $12.99</p>
-                                <p class="card-text">Rating: 4.0</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/4yjFZoo7GtEgXzMLzeYfipMw/2873e627fd412597d5a83dbd1219601dbfcb54547deafb05508b184d9d1bcfbd?response-content-disposition=inline%3B%20filename%3D%22Audiotent-Unison-AT193-Xfer.jpg%22%3B%20filename%2A%3DUTF-8%27%27Audiotent-Unison-AT193-Xfer.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=17a86b7e09918367b932b193efd6424fbd49356d7cbd9b3a92498c1f8bd1bca7" class="card-img-top" alt="Thumbnail 3">
-                            <div class="card-body">
-                                <h5 class="card-title">Title 3</h5>
-                                <p class="card-text">VST: Serum</p>
-                                <p class="card-text">Genre: Genre 3</p>
-                                <p class="card-text">Author: Author 3</p>
-                                <p class="card-text">Price: $14.99</p>
-                                <p class="card-text">Rating: 3.8</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h2>Other Presets</h2>
-                <div class="row">
-                    <table class="table table-striped table-bordered table-hover">
-            <tbody>
-                <tr>
-                    <td class="d-none d-sm-table-cell">
-                        <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/1669046066_Black%20Octopus%20Sound%20-%20Imaginate%20Elements%20Series%20-%20Aer%20-%20Anthemic%20Drum%20and%20Bass%20-%201000.jpg/e810be6bacfc009830eec40db2eb82bc95480c20f25e4694bc28675a351113fe?response-content-disposition=inline%3B%20filename%3D%22Black%20Octopus%20Sound%20-%20Imaginate%20Elements%20Series%20-%20Aer%20-%20Anthemic%20Drum%20and%20Bass%20-%201000.jpg%22%3B%20filename%2A%3DUTF-8%27%27Black%2520Octopus%2520Sound%2520-%2520Imaginate%2520Elements%2520Series%2520-%2520Aer%2520-%2520Anthemic%2520Drum%2520and%2520Bass%2520-%25201000.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=7a9d9d25a17ebd8e4c3e7b3b500582d23748c8a889ba72004252dc390935c281" width="75" style="cursor: pointer;">
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <h5 style="cursor: pointer;">Aer - Anthemic Drum & Bass</h5>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <h6 style="cursor: pointer;">Serum</h6>
-                    </td>
-                    <td class="d-none d-sm-table-cell" style="width: 16.66%;">
-                        <div class="genres">
-                            <span class="badge badge-dark text-primary">Atmosphere</span>
-                            <span class="badge badge-dark text-primary">Synth</span>
-                            <span class="badge badge-dark text-primary">SFX</span>
-                        </div>
-                    </td>
-                    <td class="d-none d-sm-table-cell" style="width: 16.66%;">
-                        <div class="genres">
-                            <span class="badge badge-dark text-primary">Drum & Bass</span>
-                        </div>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <a href="/preset_packs/manufacturers/black-octopus-sound">Black Octopus Sound</a>
-                    </td>
-                    <td>
-                        <!-- Actions for smaller screens -->
-                        <div class="d-block d-sm-none">
-                            <div class="row">
-                                <div class="col-5">
-                                    <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/wd6sxt2uuiQRJAVmGCYcbVfJ/e810be6bacfc009830eec40db2eb82bc95480c20f25e4694bc28675a351113fe?response-content-disposition=inline%3B%20filename%3D%22auraformv2art.jpg%22%3B%20filename%2A%3DUTF-8%27%27auraformv2art.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b16adebda230d0b431047efbf10a9170d6be126cb5e7002ef4073d1875603801" class="mobile-preset-image">
-                                </div>
-                                <div class="col">
-                                    <strong>Aer - Anthemic Drum & Bass (Presets Only)</strong><br>
-                                    by Black Octopus Sound
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Actions for larger screens -->
-                        <div class="d-flex justify-content-center align-self-center preset-table-actions">
-                            <div role="group" class="card-actions modal-actions btn-group">
-                                <button type="button" class="preset-card-play btn btn-secondary"><i class="fa fa-play"></i></button>
-                                <button type="button" class="preset-card-cart btn btn-secondary"><i class="fa fa-cart-plus"></i><span class="price card-button">$29.00</span></button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                   
-                    <td class="d-none d-sm-table-cell">
-                        <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/wd6sxt2uuiQRJAVmGCYcbVfJ/e810be6bacfc009830eec40db2eb82bc95480c20f25e4694bc28675a351113fe?response-content-disposition=inline%3B%20filename%3D%22auraformv2art.jpg%22%3B%20filename%2A%3DUTF-8%27%27auraformv2art.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b16adebda230d0b431047efbf10a9170d6be126cb5e7002ef4073d1875603801" width="75" style="cursor: pointer;">
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <h5 style="cursor: pointer;">Auraform v2.0</h5>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <h6 style="cursor: pointer;">Serum</h6>
-                    </td>
-                    <td class="d-none d-sm-table-cell" style="width: 16.66%;">
-                        <div class="genres">
-                            <span class="badge badge-dark text-primary">Atmosphere</span>
-                            <span class="badge badge-dark text-primary">Synth</span>
-                            <span class="badge badge-dark text-primary">SFX</span>
-                        </div>
-                    </td>
-                    <td class="d-none d-sm-table-cell" style="width: 16.66%;">
-                        <div class="genres">
-                            <span class="badge badge-dark text-primary">Electronica</span>
-                            <span class="badge badge-dark text-primary">Dubstep</span>
-                            <span class="badge badge-dark text-primary">Melodic Techno</span>
-                            <span class="badge badge-dark text-primary">Progressive House</span>
-                            <span class="badge badge-dark text-primary">Psy Trance</span>
-                        </div>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <a href="/preset_packs/manufacturers/black-octopus-sound">Libra Rising Music</a>
-                    </td>
-                    <td>
-                        <!-- Actions for smaller screens -->
-                        <div class="d-block d-sm-none">
-                            <div class="row">
-                                <div class="col-5">
-                                    <img src="https://xfer-active-storage.s3.us-west-1.amazonaws.com/variants/4yjFZoo7GtEgXzMLzeYfipMw/e810be6bacfc009830eec40db2eb82bc95480c20f25e4694bc28675a351113fe?response-content-disposition=inline%3B%20filename%3D%22Audiotent-Unison-AT193-Xfer.jpg%22%3B%20filename%2A%3DUTF-8%27%27Audiotent-Unison-AT193-Xfer.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20231125%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20231125T204814Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=e49584e3bc7ba219a7b1559243fff6db4a7fd9463805f6a018d73f5e5bb0dc03">
-                                </div>
-                                <div class="col">
-                                    <strong>Unison</strong><br>
-                                    by Audiotent
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Actions for larger screens -->
-                        <div class="d-flex justify-content-center align-self-center preset-table-actions">
-                            <div role="group" class="card-actions modal-actions btn-group">
-                                <button type="button" class="preset-card-play btn btn-secondary"><i class="fa fa-play"></i></button>
-                                <button type="button" class="preset-card-cart btn btn-secondary"><i class="fa fa-cart-plus"></i><span class="price card-button">$50.00</span></button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <!-- Repeat similar structure for additional rows -->
-                    <td class="d-none d-sm-table-cell">
-                        <img src="https://xfer-active-storage.s3-accelerate.amazonaws.com/variants/4yjFZoo7GtEgXzMLzeYfipMw/e810be6bacfc009830eec40db2eb82bc95480c20f25e4694bc28675a351113fe?response-content-disposition=inline%3B%20filename%3D%22Audiotent-Unison-AT193-Xfer.jpg%22%3B%20filename%2A%3DUTF-8%27%27Audiotent-Unison-AT193-Xfer.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20240224%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240224T092047Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=6082663e6958e342385a363b3650be04717205830e4c1aed8183f80af8f83747" width="75" style="cursor: pointer;">
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <h5 style="cursor: pointer;">Unison</h5>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <h6 style="cursor: pointer;">Serum</h6>
-                    </td>
-                    <td class="d-none d-sm-table-cell" style="width: 16.66%;">
-                        <div class="genres">
-                            <span class="badge badge-dark text-primary">Atmosphere</span>
-                            <span class="badge badge-dark text-primary">Synth</span>
-                            <span class="badge badge-dark text-primary">SFX</span>
-                        </div>
-                    </td>
-                    <td class="d-none d-sm-table-cell" style="width: 16.66%;">
-                        <div class="genres">
-                            <span class="badge badge-dark text-primary">Techno</span>
-                            <span class="badge badge-dark text-primary">Melodic Techno</span>
-                        </div>
-                    </td>
-                    <td class="d-none d-sm-table-cell">
-                        <a href="/preset_packs/manufacturers/black-octopus-sound">Audiotent</a>
-                    </td>
-                    <td>
-                        <!-- Actions for smaller screens -->
-                        <div class="d-block d-sm-none">
-                            <div class="row">
-                                <div class="col-5">
-                                    <img src="https://xfer-active-storage.s3.us-west-1.amazonaws.com/variants/4yjFZoo7GtEgXzMLzeYfipMw/e810be6bacfc009830eec40db2eb82bc95480c20f25e4694bc28675a351113fe?response-content-disposition=inline%3B%20filename%3D%22Audiotent-Unison-AT193-Xfer.jpg%22%3B%20filename%2A%3DUTF-8%27%27Audiotent-Unison-AT193-Xfer.jpg&response-content-type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIRVNUUIRE4F5BCDQ%2F20231125%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20231125T204814Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=e49584e3bc7ba219a7b1559243fff6db4a7fd9463805f6a018d73f5e5bb0dc03">
-                                </div>
-                                <div class="col">
-                                    <strong>Unison</strong><br>
-                                    by Audiotent
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Actions for larger screens -->
-                        <div class="d-flex justify-content-center align-self-center preset-table-actions">
-                            <div role="group" class="card-actions modal-actions btn-group">
-                                <button type="button" class="preset-card-play btn btn-secondary"><i class="fa fa-play"></i></button>
-                                <button type="button" class="preset-card-cart btn btn-secondary"><i class="fa fa-cart-plus"></i><span class="price card-button">$50.00</span></button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-                </div>
-            </main>
-        </div>
-    </div>
 
-    <!-- Add Bootstrap JS and Popper.js scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-xs-5 px-lg-5" data-bs-theme="dark">
+    <h1>Presets</h1>
+    <% for (let i = 0; i < presets.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+            <div class="row" style="margin-bottom: 20px; margin-top: 15px;">
+        <% } %>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="<%= presets[i].imagepath %>" class="card-img-top" alt="This will become an image">
+                <div class="card-body">
+                    <h5 class="card-title"><%= presets[i].title %></h5>
+                    <p class="card-text">Genre: <%= presets[i].genres %></p>
+                    <p class="card-text">VST: <%= presets[i].vst %></p>
+                    <p class="card-text">Author: <%= presets[i].authorname %></p>
+                    <p class="card-text">Price: <%= presets[i].price %></p>
+                    <p class="card-text">Rating: <%= presets[i].rating %></p>
+                </div>
+            </div>
+        </div>
+        <% if (i % 3 === 2 || i === presets.length - 1) { %>
+            </div>
+        <% } %>
+    <% } %>
+</main>
 </body>
 </html>

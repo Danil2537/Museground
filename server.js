@@ -8,6 +8,10 @@ require("dotenv").config();
 const app = express();
 const { getUserItems } = require('./getuseritems');
 
+let genres = [];
+let types = [];
+let plugins = [];
+
 const PORT = process.env.PORT || 80;
 
 const initializePassport = require("./passportConfig");
@@ -347,8 +351,30 @@ app.get('/packs', async (req, res) => {
   }
 });
 
-app.get('/presets', async(req,res)=>{
-  res.render('presets');
+
+app.get('/presets', async (req, res) => {
+  try {
+    const presets = await fetchAndSetPresetData();
+    console.log(presets);
+    res.render('presets', { presets, genres, types, plugins });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/presets/:filter/:value', async (req, res) => {
+  const { filter, value } = req.params;
+  console.log(filter, value);
+  try {
+    const presetsResult = await pool.query(`SELECT * FROM museground.preset WHERE ${filter} = $1`, [value]);
+    const presets = presetsResult.rows;
+
+    res.render('presets', { presets, genres, types, plugins });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 app.get('/plugins', async(req,res)=>{
@@ -495,6 +521,42 @@ function getSamples(query, params) {
   });
 }
 
+
+async function fetchAndSetPresetData() {
+  try {
+    const presetsResult = await pool.query('SELECT * FROM museground.preset');
+    const presets = presetsResult.rows;
+
+    let previousGenre = '';
+    let previousType = '';
+    let previousPlugin = '';
+
+    genres = [];
+    types = [];
+    plugins = [];
+
+    presets.forEach(preset => {
+      if (preset.genres !== previousGenre) {
+        genres.push(preset.genres);
+        previousGenre = preset.genres;
+      }
+      if (preset.types !== previousType) {
+        types.push(preset.types);
+        previousType = preset.types;
+      }
+      if (preset.vst !== previousPlugin) {
+        plugins.push(preset.vst);
+        previousPlugin = preset.vst;
+      }
+    });
+    console.log(genres, types, plugins);
+
+    return presets;
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to fetch presets');
+  }
+}
 
 
 app.listen(PORT, () => {

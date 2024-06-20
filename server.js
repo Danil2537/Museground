@@ -11,6 +11,8 @@ const { getUserItems } = require('./getuseritems');
 let genres = [];
 let types = [];
 let plugins = [];
+let instruments = [];
+let effects = [];
 
 const PORT = process.env.PORT || 80;
 
@@ -18,9 +20,7 @@ const initializePassport = require("./passportConfig");
 
 initializePassport(passport);
 
-// Middleware
 
-// Parses details from a form
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
@@ -354,7 +354,7 @@ app.get('/packs', async (req, res) => {
 
 app.get('/presets', async (req, res) => {
   try {
-    const presets = await fetchAndSetPresetData();
+    const presets = await getPresets();
     console.log(presets);
     res.render('presets', { presets, genres, types, plugins });
   } catch (err) {
@@ -378,7 +378,53 @@ app.get('/presets/:filter/:value', async (req, res) => {
 });
 
 app.get('/plugins', async(req,res)=>{
-  res.render('vst');
+  try {
+    const plugins = await getPlugins();
+    console.log(plugins);
+    res.render('plugins', { plugins, instruments, effects});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/plugins/instruments', async(req,res)=>{
+  try {
+    const plugins = await getPlugins();
+    const instPlugins = plugins.filter((plugin)=>{return plugin.isfx==false;})
+    console.log(instPlugins);
+    res.render('plugins', { plugins: instPlugins, instruments, effects});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/plugins/effects', async(req,res)=>{
+  try {
+    const plugins = await getPlugins();
+    const fxPlugins = plugins.filter((plugin)=>{return plugin.isfx;})
+    console.log(fxPlugins);
+    res.render('plugins', { plugins: fxPlugins, instruments, effects});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/plugins/:filter/:value', async (req, res) => {
+  const { filter, value } = req.params;
+  console.log(filter, value);
+  try {
+    const pluginsResult = await pool.query(`SELECT * FROM museground.plugin WHERE type = $1`, [value]);
+    const plugins = pluginsResult.rows;
+    console.log(instruments, effects);
+    res.render('plugins', { plugins, instruments, effects});
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 app.get('/logout', function(req, res, next) {
@@ -522,7 +568,7 @@ function getSamples(query, params) {
 }
 
 
-async function fetchAndSetPresetData() {
+async function getPresets() {
   try {
     const presetsResult = await pool.query('SELECT * FROM museground.preset');
     const presets = presetsResult.rows;
@@ -549,7 +595,6 @@ async function fetchAndSetPresetData() {
         previousPlugin = preset.vst;
       }
     });
-    console.log(genres, types, plugins);
 
     return presets;
   } catch (err) {
@@ -558,6 +603,39 @@ async function fetchAndSetPresetData() {
   }
 }
 
+async function getPlugins() {
+  try {
+    const pluginsResult = await pool.query('SELECT * FROM museground.plugin');
+    const plugins = pluginsResult.rows;
+
+    let previousInstrument = '';
+    let previousEffect = '';
+
+    instruments = [];
+    effects = [];
+
+    plugins.forEach(plugin => {
+      if (plugin.type != previousInstrument || plugin.type != previousEffect) {
+        if(plugin.isfx==true) {
+          effects.push(plugin.type);
+          previousEffect = plugin.type;
+        }
+        else if(plugin.isfx==false) {
+          instruments.push(plugin.type);
+          previousInstrument = plugin.type;
+        }
+      }
+    });
+    instruments = instruments.filter((elem, index, self) => { return index === self.indexOf(elem);})
+    effects = effects.filter((elem, index, self) => { return index === self.indexOf(elem);})
+    console.log(instruments, effects);
+
+    return plugins;
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to fetch plugins');
+  }
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

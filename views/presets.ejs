@@ -108,6 +108,16 @@
                     <p class="card-text">Author: <%= presets[i].authorname %></p>
                     <p class="card-text">Price: <%= presets[i].price %></p>
                     <p class="card-text">Rating: <%= presets[i].rating %></p>
+                    <p class="card-text text-center">
+                        <form id="downloadForm<%= presets[i].presetid %>" action="/download" method="POST" style="display: none;">
+                            <input type="hidden" name="userid" value="<%= user.userid %>">
+                            <input type="hidden" name="itemid" value="<%= presets[i].presetid %>">
+                            <input type="hidden" name="itemtype" value="preset">
+                        </form>
+                        <button id="downloadBtn<%= presets[i].presetid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= presets[i].presetid %>').submit();">
+                            Download
+                        </button>
+                    </p>
                 </div>
             </div>
         </div>

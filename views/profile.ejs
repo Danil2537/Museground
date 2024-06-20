@@ -124,7 +124,16 @@
                                                 <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
                                             </ul>
                                             <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                                                <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                                                <li class="list-group-item list-group-item-dark text-center">
+                                                    <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
+                                                        <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                                                        <input type="hidden" name="itemid" value="<%= track.trackid %>">
+                                                        <input type="hidden" name="itemtype" value="track">
+                                                    </form>
+                                                    <button id="downloadBtn<%= track.trackid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= track.trackid %>').submit();">
+                                                        Download
+                                                    </button>
+                                                </li>
                                                 <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
                                                 <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
                                                 <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
@@ -228,7 +237,14 @@
                                                 </ul>
                                                 <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
                                                     <li class="list-group-item list-group-item-dark text-center">
-                                                        <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary">Download</button>
+                                                        <form id="downloadForm<%= sample.sampleid %>" action="/download" method="POST" style="display: none;">
+                                                            <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                                                            <input type="hidden" name="itemid" value="<%= sample.sampleid %>">
+                                                            <input type="hidden" name="itemtype" value="sample">
+                                                        </form>
+                                                        <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= sample.sampleid %>').submit();">
+                                                            Download
+                                                        </button>
                                                     </li>
                                                     <li class="list-group-item list-group-item-dark text-center">
                                                         <p id="trackLength<%= sample.sampleid %>">Length: <%= sample.length %></p>
@@ -319,6 +335,16 @@
                                                     </button>
                                                 </li>
                                             <% }) %>
+                                            <li class="list-group-item list-group-item-dark text-center">
+                                                <form id="downloadForm<%= packs[i].packid %>" action="/download" method="POST" style="display: none;">
+                                                    <input type="hidden" name="userid" value="<%= user.userid %>">
+                                                    <input type="hidden" name="itemid" value="<%= packs[i].packid %>">
+                                                    <input type="hidden" name="itemtype" value="pack">
+                                                </form>
+                                                <button id="downloadBtn<%= packs[i].packid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= packs[i].packid %>').submit();">
+                                                    Download
+                                                </button>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -388,6 +414,16 @@
                                                 <p class="card-text">Author: <%=presets[i].authorname%></p>
                                                 <p class="card-text">Price: <%=presets[i].price%></p>
                                                 <p class="card-text">Rating: <%=presets[i].rating%></p>
+                                                <p class="card-text text-center">
+                                                    <form id="downloadForm<%= presets[i].presetid %>" action="/download" method="POST" style="display: none;">
+                                                        <input type="hidden" name="userid" value="<%= user.userid %>">
+                                                        <input type="hidden" name="itemid" value="<%= presets[i].presetid %>">
+                                                        <input type="hidden" name="itemtype" value="preset">
+                                                    </form>
+                                                    <button id="downloadBtn<%= presets[i].presetid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= presets[i].presetid %>').submit();">
+                                                        Download
+                                                    </button>
+                                                </p>
                                             </div>
                                     </div>
                             </div>
@@ -415,6 +451,16 @@
                                             <li class="list-group-item list-group-item-dark"><strong>Type:</strong><%=plugins[i].type%></li>
                                             <li class="list-group-item list-group-item-dark"><strong>Rating:</strong><%=plugins[i].rating%></li>
                                             <li class="list-group-item list-group-item-dark"><strong>Price:</strong><%=plugins[i].price%></li>
+                                            <li class="list-group-item list-group-item-dark text-center">
+                                                <form id="downloadForm<%= plugins[i].vstid %>" action="/download" method="POST" style="display: none;">
+                                                    <input type="hidden" name="userid" value="<%= user.userid %>">
+                                                    <input type="hidden" name="itemid" value="<%= plugins[i].vstid %>">
+                                                    <input type="hidden" name="itemtype" value="plugin">
+                                                </form>
+                                                <button id="downloadBtn<%= plugins[i].vstid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= plugins[i].vstid %>').submit();">
+                                                    Download
+                                                </button>
+                                            </li>
                                         </ul>
                                         <div class="mt-3">
                                             <small class="text-muted">Tags: Electronic, Synth</small>
@@ -461,7 +507,14 @@
                                                 </ul>
                                                 <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
                                                     <li class="list-group-item list-group-item-dark text-center">
-                                                        <button id="downloadBtn<%= csample.sampleid %>" class="btn btn-secondary">Download</button>
+                                                        <form id="downloadForm<%= csample.sampleid %>" action="/download" method="POST" style="display: none;">
+                                                            <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                                                            <input type="hidden" name="itemid" value="<%= csample.sampleid %>">
+                                                            <input type="hidden" name="itemtype" value="sample">
+                                                        </form>
+                                                        <button id="downloadBtn<%= csample.sampleid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= csample.sampleid %>').submit();">
+                                                            Download
+                                                        </button>
                                                     </li>
                                                     <li class="list-group-item list-group-item-dark text-center">
                                                         <p id="trackLength<%= csample.sampleid %>">Length: <%= csample.length %></p>
@@ -551,6 +604,16 @@
                                                     </button>
                                                 </li>
                                             <% }) %>
+                                            <li class="list-group-item list-group-item-dark text-center">
+                                                <form id="downloadForm<%= packs[i].packid %>" action="/download" method="POST" style="display: none;">
+                                                    <input type="hidden" name="userid" value="<%= user.userid %>">
+                                                    <input type="hidden" name="itemid" value="<%= packs[i].packid %>">
+                                                    <input type="hidden" name="itemtype" value="pack">
+                                                </form>
+                                                <button id="downloadBtn<%= packs[i].packid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= packs[i].packid %>').submit();">
+                                                    Download
+                                                </button>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -621,6 +684,16 @@
                                                 <p class="card-text">Author: <%=presets[i].authorname%></p>
                                                 <p class="card-text">Price: <%=presets[i].price%></p>
                                                 <p class="card-text">Rating: <%=presets[i].rating%></p>
+                                                <p class="card-text text-center">
+                                                    <form id="downloadForm<%= presets[i].presetid %>" action="/download" method="POST" style="display: none;">
+                                                        <input type="hidden" name="userid" value="<%= user.userid %>">
+                                                        <input type="hidden" name="itemid" value="<%= presets[i].presetid %>">
+                                                        <input type="hidden" name="itemtype" value="preset">
+                                                    </form>
+                                                    <button id="downloadBtn<%= presets[i].presetid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= presets[i].presetid %>').submit();">
+                                                        Download
+                                                    </button>
+                                                </p>
                                             </div>
                                     </div>
                             </div>

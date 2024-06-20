@@ -108,6 +108,16 @@
                                 </button>
                             </li>
                         <% }) %>
+                        <li class="list-group-item list-group-item-dark text-center">
+                            <form id="downloadForm<%= packs[i].packid %>" action="/download" method="POST" style="display: none;">
+                                <input type="hidden" name="userid" value="<%= user.userid %>">
+                                <input type="hidden" name="itemid" value="<%= packs[i].packid %>">
+                                <input type="hidden" name="itemtype" value="pack">
+                            </form>
+                            <button id="downloadBtn<%= packs[i].packid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= packs[i].packid %>').submit();">
+                                Download
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>

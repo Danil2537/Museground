@@ -65,7 +65,7 @@ app.get("/login", checkAuthenticated, (req, res) => {
 }
 });
 
-app.get('/profile', async (req, res) => {
+app.get('/profile', checkNotAuthenticated, async (req, res) => {
   req.user.lastvisit = new Date();
     pool.query(
       `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
@@ -78,9 +78,7 @@ app.get('/profile', async (req, res) => {
     res.render("profile", { user: req.user, action: 'User', type: 'Profile'});  
   });
 
-
-
-app.get('/profile/items/tracks', async (req, res) => {
+app.get('/profile/items/tracks', checkNotAuthenticated, async (req, res) => {
   try {
       var trackpaths = [];
       var trackids = [];
@@ -96,7 +94,7 @@ app.get('/profile/items/tracks', async (req, res) => {
   }
 });
 
-app.get('/profile/items/samples', async (req, res) => {
+app.get('/profile/items/samples', checkNotAuthenticated, async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
       var samplepaths = [];
@@ -112,7 +110,7 @@ app.get('/profile/items/samples', async (req, res) => {
   }
 });
 
-app.get('/profile/items/packs', async (req, res) => {
+app.get('/profile/items/packs', checkNotAuthenticated, async (req, res) => {
   try {
       var samplepaths = [];
       var sampleids = [];
@@ -130,7 +128,7 @@ app.get('/profile/items/packs', async (req, res) => {
   }
 });
 
-app.get('/profile/items/presets', async (req, res) => {
+app.get('/profile/items/presets', checkNotAuthenticated, async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
 
@@ -140,7 +138,7 @@ app.get('/profile/items/presets', async (req, res) => {
   }
 });
 
-app.get('/profile/items/plugins', async (req, res) => {
+app.get('/profile/items/plugins',checkNotAuthenticated, async (req, res) => {
   try {
       const items = await getUserItems(req.user.userid);
       res.render('profile', { user: req.user, plugins: items.plugins, action: 'Downloaded', type: 'Plugins' });
@@ -149,7 +147,7 @@ app.get('/profile/items/plugins', async (req, res) => {
   }
 });
 
-app.get('/profile/items/samples-created', async(req,res)=>{
+app.get('/profile/items/samples-created', checkNotAuthenticated,async(req,res)=>{
   try
   {
     var samples = [];
@@ -179,7 +177,7 @@ app.get('/profile/items/samples-created', async(req,res)=>{
   }
 })
 
-app.get('/profile/items/packs-created', async (req, res) => {
+app.get('/profile/items/packs-created',checkNotAuthenticated, async (req, res) => {
   try {
     const packResults = await pool.query('SELECT * FROM museground.pack WHERE author = $1', [req.user.userid]);
     const packs = packResults.rows;
@@ -200,7 +198,7 @@ app.get('/profile/items/packs-created', async (req, res) => {
   }
 });
 
-app.get('/profile/items/presets-created', async(req,res)=>{
+app.get('/profile/items/presets-created',checkNotAuthenticated, async(req,res)=>{
   try
   {
     var presets = [];
@@ -222,38 +220,58 @@ app.get('/profile/items/presets-created', async(req,res)=>{
   }
 })
 
-app.get('/tracks', async(req,res)=>{
+app.get('/tracks',checkNotAuthenticated, async(req,res)=>{
   const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY trackid');
-  res.render('tracks', { type: 'Random', tracks: tracks, trackdata: trackdata});
+  tracks.forEach(track => {
+    track.dateadded = setDate(new Date(track.dateadded));
+    track.datecreated = setDate(new Date(track.datecreated));
+});
+  res.render('tracks', { user: req.user, type: 'Random', tracks: tracks, trackdata: trackdata});
 });
 
-app.get('/tracks/new', async(req,res)=>{
+app.get('/tracks/new',checkNotAuthenticated, async(req,res)=>{
   const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY dateadded DESC LIMIT 5;');
-  res.render('tracks', { type: 'New', tracks: tracks, trackdata: trackdata});
+  tracks.forEach(track => {
+    track.dateadded = setDate(new Date(track.dateadded));
+    track.datecreated = setDate(new Date(track.datecreated));
+});
+  res.render('tracks', { user: req.user, type: 'New', tracks: tracks, trackdata: trackdata});
 });
 
-app.get('/tracks/genres', async(req,res)=>{
+app.get('/tracks/genres',checkNotAuthenticated, async(req,res)=>{
   const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY genre ASC;');
-  res.render('tracks', { type: 'Genres', tracks: tracks, trackdata: trackdata});
+  tracks.forEach(track => {
+    track.dateadded = setDate(new Date(track.dateadded));
+    track.datecreated = setDate(new Date(track.datecreated));
+});
+  res.render('tracks', { user: req.user, type: 'Genres', tracks: tracks, trackdata: trackdata});
 });
 
-app.get('/tracks/authors', async(req,res)=>{
+app.get('/tracks/authors', checkNotAuthenticated, async(req,res)=>{
   const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY author ASC;');
-  res.render('tracks', { type: 'Authors', tracks: tracks, trackdata: trackdata});
+  tracks.forEach(track => {
+    track.dateadded = setDate(new Date(track.dateadded));
+    track.datecreated = setDate(new Date(track.datecreated));
+});
+  res.render('tracks', {user: req.user,  type: 'Authors', tracks: tracks, trackdata: trackdata});
 });
 
-app.get('/tracks/labels', async(req,res)=>{
+app.get('/tracks/labels',checkNotAuthenticated,  async(req,res)=>{
   const { tracks, trackdata } = await getTracks('SELECT * FROM museground.track ORDER BY label ASC;');
-  res.render('tracks', { type: 'Labels', tracks: tracks, trackdata: trackdata});
+  tracks.forEach(track => {
+    track.dateadded = setDate(new Date(track.dateadded));
+    track.datecreated = setDate(new Date(track.datecreated));
+});
+  res.render('tracks', {user: req.user, type: 'Labels', tracks: tracks, trackdata: trackdata});
 });
 
-app.get('/samples', async(req,res)=>{
+app.get('/samples',checkNotAuthenticated, async(req,res)=>{
   const {samples, sampledata} = await getSamples(`SELECT * FROM museground.sample`, []);
-  res.render('samples', {samples: samples, sampledata: sampledata});
+  res.render('samples', {user: req.user, samples: samples, sampledata: sampledata});
 });
 
 
-app.post('/samples/query', async (req, res) => {
+app.post('/samples/query',checkNotAuthenticated, async (req, res) => {
   const { instrument, author, key, genre, minbpm, maxbpm } = req.body;
   const conditions = [];
   const values = [];
@@ -293,14 +311,14 @@ app.post('/samples/query', async (req, res) => {
     console.log(query);
     const { samples, sampledata } = await getSamples(query, values);
     console.log(samples, sampledata);
-    res.render('samples', { samples: samples, sampledata: sampledata });
+    res.render('samples', { user: req.user, samples: samples, sampledata: sampledata });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-app.get('/packs', async (req, res) => {
+app.get('/packs', checkNotAuthenticated, async (req, res) => {
   const { sort } = req.query;
 
   let orderByClause = '';
@@ -344,7 +362,7 @@ app.get('/packs', async (req, res) => {
     await Promise.all(packPromises);
 
     const sampledata = { sampleids, samplepaths };
-    res.render('packs', { packs, sampledata, sort });
+    res.render('packs', { user: req.user, packs, sampledata, sort });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -352,74 +370,74 @@ app.get('/packs', async (req, res) => {
 });
 
 
-app.get('/presets', async (req, res) => {
+app.get('/presets',checkNotAuthenticated, async (req, res) => {
   try {
     const presets = await getPresets();
     console.log(presets);
-    res.render('presets', { presets, genres, types, plugins });
+    res.render('presets', { user: req.user, presets, genres, types, plugins });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-app.get('/presets/:filter/:value', async (req, res) => {
+app.get('/presets/:filter/:value',checkNotAuthenticated, async (req, res) => {
   const { filter, value } = req.params;
   console.log(filter, value);
   try {
     const presetsResult = await pool.query(`SELECT * FROM museground.preset WHERE ${filter} = $1`, [value]);
     const presets = presetsResult.rows;
 
-    res.render('presets', { presets, genres, types, plugins });
+    res.render('presets', {user: req.user, presets, genres, types, plugins });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-app.get('/plugins', async(req,res)=>{
+app.get('/plugins',checkNotAuthenticated, async(req,res)=>{
   try {
     const plugins = await getPlugins();
     console.log(plugins);
-    res.render('plugins', { plugins, instruments, effects});
+    res.render('plugins', {user: req.user, plugins, instruments, effects});
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-app.get('/plugins/instruments', async(req,res)=>{
+app.get('/plugins/instruments',checkNotAuthenticated, async(req,res)=>{
   try {
     const plugins = await getPlugins();
     const instPlugins = plugins.filter((plugin)=>{return plugin.isfx==false;})
     console.log(instPlugins);
-    res.render('plugins', { plugins: instPlugins, instruments, effects});
+    res.render('plugins', {user: req.user, plugins: instPlugins, instruments, effects});
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-app.get('/plugins/effects', async(req,res)=>{
+app.get('/plugins/effects',checkNotAuthenticated, async(req,res)=>{
   try {
     const plugins = await getPlugins();
     const fxPlugins = plugins.filter((plugin)=>{return plugin.isfx;})
     console.log(fxPlugins);
-    res.render('plugins', { plugins: fxPlugins, instruments, effects});
+    res.render('plugins', {user: req.user, plugins: fxPlugins, instruments, effects});
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-app.get('/plugins/:filter/:value', async (req, res) => {
+app.get('/plugins/:filter/:value',checkNotAuthenticated, async (req, res) => {
   const { filter, value } = req.params;
   console.log(filter, value);
   try {
     const pluginsResult = await pool.query(`SELECT * FROM museground.plugin WHERE type = $1`, [value]);
     const plugins = pluginsResult.rows;
     console.log(instruments, effects);
-    res.render('plugins', { plugins, instruments, effects});
+    res.render('plugins', {user: req.user, plugins, instruments, effects});
 
   } catch (err) {
     console.error(err);
@@ -438,13 +456,6 @@ app.post("/register", async (req, res) => {
   let { username, email, password, password2 } = req.body;
 
   let errors = [];
-
-  // console.log({
-  //   username,
-  //   email,
-  //   password,
-  //   password2
-  // });
 
   if (!username || !email || !password || !password2) {
     errors.push({ message: "Please enter all fields" });
@@ -507,6 +518,62 @@ app.post("/login",
     failureFlash: true
   })
 );
+
+app.post('/download', checkNotAuthenticated, async (req, res) => {
+  const { userid, itemid, itemtype } = req.body;
+  const referer = req.get('Referer'); // Get the referring page URL
+
+  try {
+    // Insert data into the user_downloads table only if it doesn't already exist
+    await pool.query(`
+      INSERT INTO museground.user_downloads (userid, itemtype, itemid)
+      SELECT $1, $2, $3
+      WHERE NOT EXISTS (
+        SELECT 1 FROM museground.user_downloads WHERE userid = $1 AND itemtype = $2 AND itemid = $3
+      )`, [userid, itemtype, itemid]);
+      
+    if (itemtype === 'sample') {
+      const samplePathResult = await pool.query(
+        `SELECT samplepath FROM museground.sample WHERE sampleid = $1`,
+        [itemid]
+      );
+      
+      const samplePath = samplePathResult.rows[0].samplepath;
+      // Construct the path relative to the "public" directory
+      const publicSamplePath = `public${samplePath}`;
+      // Download the file
+      res.download(publicSamplePath, (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('File download error');
+        }
+      });
+    } else if (itemtype === 'track') {
+      const trackPathResult = await pool.query(
+        `SELECT trackpath FROM museground.track WHERE trackid = $1`,
+        [itemid]
+      );
+      
+      const trackPath = trackPathResult.rows[0].trackpath;
+      // Construct the path relative to the "public" directory
+      const publicTrackPath = `public${trackPath}`;
+      // Download the file
+      res.download(publicTrackPath, (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('File download error');
+        }
+      });
+    } else {
+      // For non-downloadable items, just redirect back
+      res.redirect(referer);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -635,6 +702,14 @@ async function getPlugins() {
     console.error(err);
     throw new Error('Failed to fetch plugins');
   }
+}
+
+function setDate(date) {
+  if (!date) return null;
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${day}/${month}/${year}`; // Customize the format as needed
 }
 
 app.listen(PORT, () => {

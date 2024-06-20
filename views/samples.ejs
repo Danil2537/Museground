@@ -163,7 +163,14 @@
                         </ul>
                         <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
                             <li class="list-group-item list-group-item-dark text-center">
-                                <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary">Download</button>
+                                <form id="downloadForm<%= sample.sampleid %>" action="/download" method="POST" style="display: none;">
+                                    <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                                    <input type="hidden" name="itemid" value="<%= sample.sampleid %>">
+                                    <input type="hidden" name="itemtype" value="sample">
+                                </form>
+                                <button id="downloadBtn<%= sample.sampleid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= sample.sampleid %>').submit();">
+                                    Download
+                                </button>
                             </li>
                             <li class="list-group-item list-group-item-dark text-center">
                                 <p id="trackLength<%= sample.sampleid %>">Length: <%= sample.length %></p>

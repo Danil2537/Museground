@@ -78,8 +78,16 @@
                       <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
                   </ul>
                   <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
-                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                    <li class="list-group-item list-group-item-dark text-center">
+                      <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
+                          <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                          <input type="hidden" name="itemid" value="<%= track.trackid %>">
+                          <input type="hidden" name="itemtype" value="track">
+                      </form>
+                      <button id="downloadBtn<%= track.trackid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= track.trackid %>').submit();">
+                          Download
+                      </button>
+                  </li>                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
                       <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
@@ -106,8 +114,16 @@
                       <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
                   </ul>
                   <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
-                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                    <li class="list-group-item list-group-item-dark text-center">
+                      <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
+                          <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                          <input type="hidden" name="itemid" value="<%= track.trackid %>">
+                          <input type="hidden" name="itemtype" value="Track">
+                      </form>
+                      <button id="downloadBtn<%= track.trackid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= track.trackid %>').submit();">
+                          Download
+                      </button>
+                  </li>                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
                       <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
@@ -138,8 +154,16 @@
                       <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
                   </ul>
                   <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
-                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
+                    <li class="list-group-item list-group-item-dark text-center">
+                      <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
+                          <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                          <input type="hidden" name="itemid" value="<%= track.trackid %>">
+                          <input type="hidden" name="itemtype" value="Track">
+                      </form>
+                      <button id="downloadBtn<%= track.trackid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= track.trackid %>').submit();">
+                          Download
+                      </button>
+                  </li>                      <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
                       <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
@@ -170,7 +194,16 @@
                       <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
                   </ul>
                   <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                    <li class="list-group-item list-group-item-dark text-center">
+                      <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
+                          <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                          <input type="hidden" name="itemid" value="<%= track.trackid %>">
+                          <input type="hidden" name="itemtype" value="Track">
+                      </form>
+                      <button id="downloadBtn<%= track.trackid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= track.trackid %>').submit();">
+                          Download
+                      </button>
+                  </li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>
@@ -202,7 +235,16 @@
                       <li class="list-group-item list-group-item-dark text-center"><button id="pitchUpBtn<%= track.trackid %>" class="btn btn-secondary">Pitch Up</button></li>
                   </ul>
                   <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
-                      <li class="list-group-item list-group-item-dark text-center"><button id="downloadBtn<%= track.trackid %>" class="btn btn btn-secondary">Download</button></li>
+                    <li class="list-group-item list-group-item-dark text-center">
+                      <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
+                          <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                          <input type="hidden" name="itemid" value="<%= track.trackid %>">
+                          <input type="hidden" name="itemtype" value="Track">
+                      </form>
+                      <button id="downloadBtn<%= track.trackid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= track.trackid %>').submit();">
+                          Download
+                      </button>
+                  </li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackLength<%= track.trackid %>">Length: <%= track.length %> </p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackKey<%= track.trackid %>">Key: <%= track.key %></p></li>
                       <li class="list-group-item list-group-item-dark text-center"><p id="trackBPM<%= track.trackid %>">BPM: <%= track.bpm %></p></li></ul>

@@ -25,13 +25,8 @@ body
           list-style-type: none;
           padding-right: 5px;
         }
-         /* .track {}
-         .track-big {}
-         .track-small {}
 
-        .wave {}
 
-        .sample {} */
 
         *::-webkit-scrollbar
         {
@@ -47,8 +42,8 @@ body
             overflow-y: auto; 
             background-color: #363C41; 
             border-right: 1px solid #d6d8db; 
-            z-index: 750;
-            margin-top: 50px;
+            z-index: 75;
+            margin-top: 55px;
         }
         
         #sidebar a {
@@ -67,12 +62,23 @@ body
 {
     color: #00F0FF;
 }
+.navbar{
+  width:100%;
+}
+
+.navbar ul li{
+  width: 14.25%; 
+  min-width:140px;
+  text-align:center;
+}
 
 nav.navbar a.active {
   font-style: italic;
   /* background-color: #00F0FF; */
   color: #00F0FF !important;
 }
+
+
         
         #sidebar h4 {
             font-size: 1.2em;
@@ -180,3 +186,6 @@ ul {
   .card {
     overflow: hidden;
   }
+
+
+  

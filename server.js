@@ -4,6 +4,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
 require("dotenv").config();
 const app = express();
 const { getUserItems } = require('./getuseritems');
@@ -14,15 +17,24 @@ let plugins = [];
 let instruments = [];
 let effects = [];
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'public', 'samples'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); 
+  }
+});
+const upload = multer({ storage: storage });
+
 const PORT = process.env.PORT || 80;
 
 const initializePassport = require("./passportConfig");
 
 initializePassport(passport);
 
-
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.json());
 
@@ -36,9 +48,7 @@ app.use(
     saveUninitialized: false
   })
 );
-// Funtion inside passport which initializes passport
 app.use(passport.initialize());
-// Store our variables to be persisted across the whole session. Works with app.use(Session) above
 app.use(passport.session());
 app.use(flash());
 
@@ -574,6 +584,69 @@ app.post('/download', checkNotAuthenticated, async (req, res) => {
   }
 });
 
+app.get('/create/sample', checkNotAuthenticated, async(req,res)=>
+{
+  res.render('create', {type: 'Sample', user: req.user});
+});
+
+app.get('/create/pack', checkNotAuthenticated, async(req,res)=>
+{
+  res.render('create', {type: 'Pack', user: req.user});
+});
+
+app.get('/create/preset', checkNotAuthenticated, async(req,res)=>
+{
+  res.render('create', {type: 'Preset', user: req.user});
+});
+
+app.post('/create/:type', checkNotAuthenticated, upload.single('audiofile'), async (req, res) => {
+  const { type } = req.params;
+
+  if (type === 'Sample') {
+    const { title, instrument, key, bpm, length, genre } = req.body;
+    const audiofile = req.file;
+
+    if (!audiofile) {
+      return res.status(400).send('No file uploaded');
+    }
+
+    // Log the user ID and other parameters
+    console.log('Request body:', { title, instrument, key, bpm, length, genre });
+    console.log('User ID:', req.user.userid);
+    
+    const id = req.user.userid;
+    const newFilePath = path.join(__dirname, 'public', 'samples', title + path.extname(audiofile.originalname));
+    const samplePath = '/samples/' + title + path.extname(audiofile.originalname); // Adjusted to use forward slashes
+
+    try {
+      fs.renameSync(audiofile.path, newFilePath);
+      console.log('File moved to:', newFilePath);
+      console.log('Sample path to be stored in DB:', samplePath);
+      console.log('User ID to be stored in DB:', id);
+
+      if (!id) {
+        return res.status(401).send('User not authenticated or missing user ID');
+      }
+
+      const result = await pool.query(
+        'INSERT INTO museground.sample (title, instrument, key, bpm, length, genre, samplepath, author) \
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8);',
+        [title, instrument, key, bpm, length, genre, samplePath, id]
+      );
+
+      //console.log('Insert result:', result.rows[0]);
+
+      res.render('profile', { user: req.user, action: 'User', type: 'Profile' });
+    } catch (error) {
+      console.error('Error inserting sample:', error);
+      res.status(500).send('Server error');
+    }
+  } else if (type === 'Pack') {
+    // Handle Pack type
+  } else if (type === 'Preset') {
+    // Handle Preset type
+  }
+});
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -711,6 +784,8 @@ function setDate(date) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${day}/${month}/${year}`; // Customize the format as needed
 }
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

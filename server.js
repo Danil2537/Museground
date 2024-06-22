@@ -17,15 +17,22 @@ let plugins = [];
 let instruments = [];
 let effects = [];
 
-const storage = multer.diskStorage({
+const dynamicStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'public', 'samples'));
+    let uploadPath;
+    if (file.fieldname === 'image') {
+      uploadPath = path.join(__dirname, 'public', 'images');
+    } else if (file.fieldname === 'preset') {
+      uploadPath = path.join(__dirname, 'public', 'presets');
+    }
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); 
+    cb(null, Date.now() + '-' + file.originalname);
   }
 });
-const upload = multer({ storage: storage });
+
+const upload = multer({ storage: dynamicStorage });
 
 const PORT = process.env.PORT || 80;
 
@@ -591,26 +598,44 @@ app.get('/create/sample', checkNotAuthenticated, async(req,res)=>
 
 app.get('/create/pack', checkNotAuthenticated, async(req,res)=>
 {
-  res.render('create', {type: 'Pack', user: req.user});
+  var samples = [];
+  pool.query(
+    `SELECT * FROM museground.sample WHERE author = $1`, [req.user.userid], (err, results) =>
+      {
+        if(err) {throw err;}
+        else 
+        {
+          samples = results.rows;
+          var samplepaths = [];
+          var sampleids = [];
+          samples.forEach(sample=>{
+            sampleids.push(sample.sampleid);
+            samplepaths.push(sample.samplepath);
+          })
+          const sampledata = {samplepaths, sampleids};
+          console.log(sampledata);
+
+
+          res.render("create", {user: req.user, type: 'Pack', samples: samples, sampledata: sampledata});
+        }
+      }
+  )
 });
 
 app.get('/create/preset', checkNotAuthenticated, async(req,res)=>
 {
-  res.render('create', {type: 'Preset', user: req.user});
+  const plugins = await pool.query(`SELECT * FROM museground.plugin`);
+  res.render('create', {type: 'Preset', user: req.user, plugins: plugins.rows});
 });
 
-app.post('/create/:type', checkNotAuthenticated, upload.single('audiofile'), async (req, res) => {
-  const { type } = req.params;
-
-  if (type === 'Sample') {
-    const { title, instrument, key, bpm, length, genre } = req.body;
+app.post('/create/sample', checkNotAuthenticated, upload.single('file'), async (req, res) => {
+  const { title, instrument, key, bpm, length, genre } = req.body;
     const audiofile = req.file;
 
     if (!audiofile) {
       return res.status(400).send('No file uploaded');
     }
 
-    // Log the user ID and other parameters
     console.log('Request body:', { title, instrument, key, bpm, length, genre });
     console.log('User ID:', req.user.userid);
     
@@ -633,20 +658,121 @@ app.post('/create/:type', checkNotAuthenticated, upload.single('audiofile'), asy
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8);',
         [title, instrument, key, bpm, length, genre, samplePath, id]
       );
-
-      //console.log('Insert result:', result.rows[0]);
-
       res.render('profile', { user: req.user, action: 'User', type: 'Profile' });
     } catch (error) {
       console.error('Error inserting sample:', error);
       res.status(500).send('Server error');
     }
-  } else if (type === 'Pack') {
-    // Handle Pack type
-  } else if (type === 'Preset') {
-    // Handle Preset type
+});
+
+app.post('/create/Pack', checkNotAuthenticated, upload.single('file'), async (req, res) => {
+  const { title, price, genre, samples } = req.body;
+  const imagefile = req.file;
+
+  if (!imagefile) {
+    return res.status(400).send('No image file uploaded');
+  }
+
+  console.log('Request body:', { title, price, genre, samples });
+
+  const id = req.user.userid;
+  const newFilePath = path.join(__dirname, 'public', 'images', title + path.extname(imagefile.originalname));
+  const imagePath = '/images/' + title + path.extname(imagefile.originalname);
+
+  try {
+    // Move the uploaded image file to the desired location
+    fs.renameSync(imagefile.path, newFilePath);
+
+    if (!id) {
+      return res.status(401).send('User not authenticated or missing user ID');
+    }
+
+    const packResult = await pool.query(
+      'INSERT INTO museground.pack (title, price, genre, imagepath, author) VALUES ($1, $2, $3, $4, $5) RETURNING packid;',
+      [title, price, genre, imagePath, id]
+    );
+
+    const newPackId = packResult.rows[0].packid;
+    console.log('New Pack ID:', newPackId);
+
+    if (samples) {
+      const sampleArray = Array.isArray(samples) ? samples : [samples];
+      const sampleIds = sampleArray.map(sample => JSON.parse(sample).sampleid);
+
+      const updatePromises = sampleIds.map(sampleId => {
+        return pool.query(
+          'UPDATE museground.sample SET belongto = $1 WHERE sampleid = $2;',
+          [newPackId, sampleId]
+        );
+      });
+
+      await Promise.all(updatePromises);
+    }
+
+    res.render('profile', { user: req.user, action: 'User', type: 'Profile' });
+  } catch (error) {
+    console.error('Error creating pack:', error);
+    res.status(500).send('Server error');
   }
 });
+
+app.post('/create/Preset', checkNotAuthenticated,
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'preset', maxCount: 1 }
+  ]),
+  async (req, res) => {
+    const { title, genres, types, price } = req.body;
+    let plugin = req.body.plugin;
+    plugin = JSON.parse(plugin);
+
+    const imagefile = req.files['image'];
+    const presetfile = req.files['preset'];
+
+    if (!imagefile) {
+      return res.status(400).send('No image file uploaded');
+    }
+    if (!presetfile) {
+      return res.status(400).send('No preset file uploaded');
+    }
+
+    console.log('Request body:', { title, genres, types, price, plugin });
+    console.log('User ID:', req.user.userid);
+
+    const newImagePath = path.join(__dirname, 'public', 'images', title + path.extname(imagefile[0].originalname));
+    const imagePath = '/images/' + title + path.extname(imagefile[0].originalname);
+
+    const newPresetPath = path.join(__dirname, 'public', 'presets', title + path.extname(presetfile[0].originalname));
+    const presetPath = '/presets/' + title + path.extname(presetfile[0].originalname);
+
+    try {
+      fs.renameSync(imagefile[0].path, newImagePath);
+      fs.renameSync(presetfile[0].path, newPresetPath);
+
+      console.log('Image moved to:', newImagePath);
+      console.log('Preset moved to:', newPresetPath);
+      console.log('Image path to be stored in DB:', imagePath);
+      console.log('Preset path to be stored in DB:', presetPath);
+      console.log('User ID to be stored in DB:', req.user.userid);
+
+      // Check if user is authenticated
+      if (!req.user || !req.user.userid || !req.user.username) {
+        return res.status(401).send('User not authenticated or missing user ID');
+      }
+
+      // Insert into database
+      const result = await pool.query(
+        'INSERT INTO museground.preset (title, genres, types, price, imagepath, presetpath, pluginid, vst, author, authorname) \
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);',
+        [title, genres, types, price, imagePath, presetPath, plugin.vstid, plugin.title, req.user.userid, req.user.username]
+      );
+
+      res.render('profile', { user: req.user, action: 'User', type: 'Profile' });
+    } catch (error) {
+      console.error('Error inserting preset:', error);
+      res.status(500).send('Server error');
+    }
+  });
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

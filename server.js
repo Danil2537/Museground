@@ -95,6 +95,27 @@ app.get('/profile', checkNotAuthenticated, async (req, res) => {
     res.render("profile", { user: req.user, action: 'User', type: 'Profile'});  
   });
 
+
+  app.post('/delete/:type', checkNotAuthenticated, async (req, res) => {
+    const { type } = req.params;
+    const { itemid } = req.body;
+  
+    // Validate type to avoid SQL injection
+    const validTypes = ['sample', 'pack', 'preset']; // Add other valid types here
+    if (!validTypes.includes(type)) {
+      return res.status(400).send('Invalid type');
+    }
+  
+    try {
+      const result = await pool.query(`DELETE FROM museground.${type} WHERE ${type}id = $1`, [itemid]);
+      res.redirect("profile", { user: req.user, action: 'User', type: 'Profile'});
+      //res.status(200).send(`Successfully deleted ${type} with id ${itemid}`);
+    } catch (err) {
+      console.error('Error deleting record:', err);
+      res.status(500).send('Server error');
+    }
+  });
+
 app.get('/profile/items/tracks', checkNotAuthenticated, async (req, res) => {
   try {
       var trackpaths = [];
@@ -755,19 +776,13 @@ app.post('/create/Preset', checkNotAuthenticated,
       console.log('Preset path to be stored in DB:', presetPath);
       console.log('User ID to be stored in DB:', req.user.userid);
 
-      // Check if user is authenticated
-      if (!req.user || !req.user.userid || !req.user.username) {
-        return res.status(401).send('User not authenticated or missing user ID');
-      }
-
-      // Insert into database
       const result = await pool.query(
         'INSERT INTO museground.preset (title, genres, types, price, imagepath, presetpath, pluginid, vst, author, authorname) \
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);',
         [title, genres, types, price, imagePath, presetPath, plugin.vstid, plugin.title, req.user.userid, req.user.username]
       );
 
-      res.render('profile', { user: req.user, action: 'User', type: 'Profile' });
+      res.redirect('profile', { user: req.user, action: 'User', type: 'Profile' });
     } catch (error) {
       console.error('Error inserting preset:', error);
       res.status(500).send('Server error');
@@ -910,8 +925,6 @@ function setDate(date) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${day}/${month}/${year}`; // Customize the format as needed
 }
-
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

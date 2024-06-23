@@ -522,6 +522,15 @@
                                                         </button>
                                                     </li>
                                                     <li class="list-group-item list-group-item-dark text-center">
+                                                        <form id="deleteForm<%= csample.sampleid %>" action="/delete/sample" method="POST" style="display: none;">
+                                                            <input type="hidden" name="itemid" value="<%= csample.sampleid %>">
+                                                            <input type="hidden" name="itemtype" value="sample">
+                                                        </form>
+                                                        <button id="deleteBtn<%= csample.sampleid %>" class="btn btn-danger" onclick="document.getElementById('deleteForm<%= csample.sampleid %>').submit();">
+                                                            Delete
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-group-item list-group-item-dark text-center">
                                                         <p id="trackLength<%= csample.sampleid %>">Length: <%= csample.length %></p>
                                                     </li>
                                                     <li class="list-group-item list-group-item-dark text-center">
@@ -619,6 +628,15 @@
                                                     Download
                                                 </button>
                                             </li>
+                                            <li class="list-group-item list-group-item-dark text-center">
+                                                <form id="deleteForm<%= packs[i].sampleid %>" action="/delete/pack" method="POST" style="display: none;">
+                                                    <input type="hidden" name="itemid" value="<%= packs[i].packid %>">
+                                                    <input type="hidden" name="itemtype" value="sample">
+                                                </form>
+                                                <button id="deleteBtn<%= packs[i].packid %>" class="btn btn-danger" onclick="document.getElementById('deleteForm<%= packs[i].packid %>').submit();">
+                                                    Delete
+                                                </button>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -697,6 +715,15 @@
                                                     </form>
                                                     <button id="downloadBtn<%= presets[i].presetid %>" class="btn btn-secondary" onclick="document.getElementById('downloadForm<%= presets[i].presetid %>').submit();">
                                                         Download
+                                                    </button>
+                                                </p>
+                                                <p class="list-group-item list-group-item-dark text-center">
+                                                    <form id="deleteForm<%= presets[i].presetid %>" action="/delete/preset" method="POST" style="display: none;">
+                                                        <input type="hidden" name="itemid" value="<%= presets[i].presetid %>">
+                                                        <input type="hidden" name="itemtype" value="sample">
+                                                    </form>
+                                                    <button id="deleteBtn<%= presets[i].presetid %>" class="btn btn-danger" onclick="document.getElementById('deleteForm<%= presets[i].presetid %>').submit();">
+                                                        Delete
                                                     </button>
                                                 </p>
                                             </div>

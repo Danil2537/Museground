@@ -3,9 +3,9 @@ const { pool } = require("./dbConfig");
 function formatDate(date) {
     if (!date) return null;
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    return `${day}/${month}/${year}`; // Customize the format as needed
+    return `${day}/${month}/${year}`; 
 }
 
 function queryDatabase(query, params) {
@@ -30,7 +30,6 @@ async function getSample(sampleid) {
 
 async function getPack(packid) {
     try {
-        // Fetch pack details
         const packQuery = `SELECT * FROM museground.pack WHERE packid = $1`;
         const packResult = await pool.query(packQuery, [packid]);
         const pack = packResult.rows[0];
@@ -39,14 +38,11 @@ async function getPack(packid) {
             throw new Error(`Pack with id ${packid} not found`);
         }
 
-        // Fetch samples belonging to this pack
         const samplesQuery = `SELECT * FROM museground.sample WHERE belongto = $1`;
         const samplesResult = await pool.query(samplesQuery, [packid]);
         const samples = samplesResult.rows;
 
-        // Combine pack details with samples
         pack.samples = samples;
-        //console.log(pack.samples);
         return pack;
     } catch (err) {
         console.error('Error fetching pack:', err);

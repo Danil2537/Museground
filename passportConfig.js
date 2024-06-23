@@ -61,7 +61,7 @@ function initialize(passport) {
       if (err) {
         return done(err);
       }
-      console.log(`ID is ${results.rows[0].userid} Name is ${results.rows[0].username}`);
+      //console.log(`ID is ${results.rows[0].userid} Name is ${results.rows[0].username}`);
       return done(null, results.rows[0]);
     });
   });

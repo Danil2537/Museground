@@ -65,12 +65,10 @@
             <div class="col-md-4 ">            
                 <label for="instrument" class="form-label">Instrument</label>
                 <select class="form-select" id="instrument" name="instrument">       
-                    <option value="" selected="selected">All Categories</option>
-                    <option value="Bass">Bass</option>
-                    <option value="Drum">Drum</option>
-                    <option value="Guitar">Guitar</option>
-                    <option value="Piano">Piano</option>
-                    <option value="Vocal">Vocal</option>
+                    <option value="" selected="selected">All Instruments</option>
+                    <% sampleinstruments.forEach(instrument=> { %>
+                        <option value="<%= JSON.stringify(instrument) %>"><%=instrument%></option>
+                    <%});%>
                 </select>
             </div>
             <div class="col-md-4">
@@ -110,13 +108,10 @@
             <div class="col-md-4">
                 <label for="genre" class="form-label">Genre</label>
                 <select class="form-select" id="genre" name="genre">
-<option value="" selected="selected">All Genres</option>
-<option value="Pop">Pop</option>
-<option value="Rock">Rock</option>
-<option value="House">House</option>
-<option value="Drum&Bass">Drum&Bass</option>
-<option value="Dubstep">Dubstep</option>
-<option value="Hip-Hop">Hip-Hop</option>
+                    <option value="" selected="selected">All Genres</option>
+                    <% samplegenres.forEach(genre=> { %>
+                        <option value="<%= JSON.stringify(genre) %>"><%=genre%></option>
+                    <%});%>
                 </select>
             </div>
             <div class="col-md-4">

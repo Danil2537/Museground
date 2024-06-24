@@ -66,7 +66,7 @@
         <% if(type==='Random') { %>
           <h1>Random tracks</h1>
           <% tracks.forEach(track => {%> 
-            <div class="card h-80 w-100 bg-dark track-big">
+            <div class="card h-80 w-100 bg-dark track-big"  style="margin-bottom: 25px;">
               <div class="card-body">
                   <h5 class="card-title"><%= track.title %></h5>
                   <p class="card-text"><%= track.author %></p>
@@ -94,7 +94,7 @@
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
-                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre %></p></li>
                       </ul>
               </div>
           </div>            
@@ -102,7 +102,7 @@
         <% } %>
         <% if (type==='New') {%>
           <% tracks.forEach(track => {%> 
-            <div class="card h-80 w-100 bg-dark track-big">
+            <div class="card h-80 w-100 bg-dark track-big"  style="margin-bottom: 25px;">
               <div class="card-body">
                   <h5 class="card-title"><%= track.title %></h5>
                   <p class="card-text"><%= track.author %></p>
@@ -130,19 +130,20 @@
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
-                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre %></p></li>
                       </ul>
               </div>
           </div>            
           <%})%>
         <%}%> 
         <% if (type==='Genres') {%>
-          <% let previousGenre = String(); %>
+          <% let previousGenre; %>
           <% tracks.forEach(track => {%> 
-            <% if (previousGenre!=track.genre.toString()) {%>   
+            <% if (previousGenre!=track.genre) {%>   
               <h1><%=track.genre%></h1><hr>
-            <%} else { previousGenre = track.genre.toString();}%>
-            <div class="card h-80 w-100 bg-dark track-big">
+             
+              <% } previousGenre = track.genre; %>
+            <div class="card h-80 w-100 bg-dark track-big" style="margin-bottom: 25px;">
               <div class="card-body">
                   <h5 class="card-title"><%= track.title %></h5>
                   <p class="card-text"><%= track.author %></p>
@@ -156,7 +157,7 @@
                   <ul class="list-group list-group-horizontal" style="padding: 10px 0px 5px 0px;">
                     <li class="list-group-item list-group-item-dark text-center">
                       <form id="downloadForm<%= track.trackid %>" action="/download" method="POST" style="display: none;">
-                          <input type="hidden" name="userid" value="<%= user.userid %>"> <!-- Add user ID here -->
+                          <input type="hidden" name="userid" value="<%= user.userid %>">
                           <input type="hidden" name="itemid" value="<%= track.trackid %>">
                           <input type="hidden" name="itemtype" value="Track">
                       </form>
@@ -170,19 +171,19 @@
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
-                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre %></p></li>
                       </ul>
               </div>
           </div>
           <%}) %>
         <% } %>
         <% if (type==='Authors') {%>
-          <% let previousAuthor = String(); %>
+          <% let previousAuthor; %>
           <% tracks.forEach(track => {%> 
-            <% if (previousAuthor!=track.author.toString()) {%>   
+            <% if (previousAuthor!=track.author) {%>   
               <h1><%=track.author%></h1><hr>
-            <%} else { previousAuthor = track.author.toString();}%>
-            <div class="card h-80 w-100 bg-dark track-big">
+            <%}  previousAuthor = track.author;%>
+            <div class="card h-80 w-100 bg-dark track-big"  style="margin-bottom: 25px;">
               <div class="card-body">
                   <h5 class="card-title"><%= track.title %></h5>
                   <p class="card-text"><%= track.author %></p>
@@ -211,19 +212,19 @@
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
-                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre %></p></li>
                       </ul>
               </div>
           </div>
           <%}) %>
         <% } %>
         <% if (type==='Labels') {%>
-          <% let previousLabel = String(); %>
+          <% let previousLabel; %>
           <% tracks.forEach(track => {%> 
-            <% if (previousLabel!=track.label.toString()) {%>   
+            <% if (previousLabel!=track.label) {%>   
               <h1><%=track.label%></h1><hr>
-            <%} else { previousLabel = track.label.toString();}%>
-            <div class="card h-80 w-100 bg-dark track-big">
+            <%} previousLabel = track.label;%>
+            <div class="card h-80 w-100 bg-dark track-big"  style="margin-bottom: 25px;">
               <div class="card-body">
                   <h5 class="card-title"><%= track.title %></h5>
                   <p class="card-text"><%= track.author %></p>
@@ -252,7 +253,7 @@
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackLabel<%= track.trackid %>">Label: <%= track.label %> </p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateCreated<%= track.trackid %>">Created: <%= track.datecreated %></p></li>
                           <li class="list-group-item list-group-item-dark text-center"><p id="trackDateAdded<%= track.trackid %>">Added to app: <%= track.dateadded %></p></li>
-                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre[0] %></p></li>
+                          <li class="list-group-item list-group-item-dark text-center"><p id="trackGenre<%= track.trackid %>">Genre: <%= track.genre %></p></li>
                       </ul>
               </div>
           </div>

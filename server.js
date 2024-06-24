@@ -16,6 +16,9 @@ let types = [];
 let plugins = [];
 let instruments = [];
 let effects = [];
+let sampleinstruments = [];
+let samplegenres = [];
+
 
 const dynamicStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -83,7 +86,8 @@ app.get("/login", checkAuthenticated, (req, res) => {
 });
 
 app.get('/profile', checkNotAuthenticated, async (req, res) => {
-  req.user.lastvisit = new Date();
+  req.user.lastvisit =setDate(new Date());
+  req.user.dateregistered = setDate(new Date(req.user.dateregistered));
     pool.query(
       `UPDATE museground.user SET lastvisit = $1 WHERE userid = $2`, [req.user.lastvisit, req.user.userid],
       (err, results) => {
@@ -304,13 +308,17 @@ app.get('/tracks/labels',checkNotAuthenticated,  async(req,res)=>{
 });
 
 app.get('/samples',checkNotAuthenticated, async(req,res)=>{
-  const {samples, sampledata} = await getSamples(`SELECT * FROM museground.sample`, []);
-  res.render('samples', {user: req.user, samples: samples, sampledata: sampledata});
+  const {samples, sampledata} = await getBaseSamples();
+  res.render('samples', {user: req.user, samples: samples, sampledata: sampledata, sampleinstruments, samplegenres});
 });
 
 
 app.post('/samples/query',checkNotAuthenticated, async (req, res) => {
-  const { instrument, author, key, genre, minbpm, maxbpm } = req.body;
+  const { author, key, minbpm, maxbpm } = req.body;
+  let instrument = req.body.instrument;
+  let genre = req.body.genre;
+  instrument = instrument ? JSON.parse(instrument) : null;
+  genre = genre ? JSON.parse(genre) : null;
   const conditions = [];
   const values = [];
   console.log(req.body);
@@ -349,7 +357,7 @@ app.post('/samples/query',checkNotAuthenticated, async (req, res) => {
     console.log(query);
     const { samples, sampledata } = await getSamples(query, values);
     console.log(samples, sampledata);
-    res.render('samples', { user: req.user, samples: samples, sampledata: sampledata });
+    res.render('samples', { user: req.user, samples: samples, sampledata: sampledata, sampleinstruments, samplegenres });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -848,6 +856,42 @@ function getSamples(query, params) {
   });
 }
 
+async function getBaseSamples() {
+  try {
+    const samplesResult = await pool.query('SELECT * FROM museground.sample');
+    const samples = samplesResult.rows;
+    let previousInstrument = '';
+    let previousGenre = '';
+    let sampleids = [];
+    let samplepaths = [];
+
+    sampleinstruments = [];
+    samplegenres = [];
+
+    samples.forEach(sample => {
+      if (sample.instruments != previousInstrument) {
+        sampleinstruments.push(sample.instrument);
+      }
+      if(sample.genre!=previousGenre) {
+        samplegenres.push(sample.genre);
+      }
+      previousInstrument = sample.instrument;
+      previousGenre = sample.genre;
+      sampleids.push(sample.sampleid);
+      samplepaths.push(sample.samplepath);
+        
+    });
+    const sampledata = { sampleids, samplepaths };
+    sampleinstruments = sampleinstruments.filter((elem, index, self) => { return index === self.indexOf(elem);})
+    samplegenres = samplegenres.filter((elem, index, self) => { return index === self.indexOf(elem);})
+    console.log(sampleinstruments, samplegenres);
+
+    return {samples, sampledata};
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to fetch samples');
+  }
+}
 
 async function getPresets() {
   try {
